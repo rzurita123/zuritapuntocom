@@ -367,36 +367,13 @@ body::after {
 .hero__cell .sym svg { width: 42%; height: 42%; }
 .hero__cell .sym use { stroke-width: 1.8; }
 
-.hero__scroll {
-  position: absolute;
-  left: var(--gutter);
-  bottom: 22px;
-  width: 26px; height: 44px;
-  border: 1.5px solid var(--muted);
-  border-radius: 14px;
-}
-.hero__scroll span {
-  position: absolute;
-  left: 50%; top: 8px;
-  width: 3px; height: 8px;
-  margin-left: -1.5px;
-  border-radius: 2px;
-  background: var(--ocre);
-  animation: scrolldot 1.8s var(--ease) infinite;
-}
-@keyframes scrolldot {
-  0% { transform: translateY(0); opacity: 0; }
-  30% { opacity: 1; }
-  100% { transform: translateY(18px); opacity: 0; }
-}
-
 /* estado inicial de la portada (lo anima main.js) */
 .js .hero__title .line > * { transform: translateY(110%); }
-.js .hero__lead, .js .hero__cta, .js .hero__scroll { opacity: 0; }
+.js .hero__lead, .js .hero__cta { opacity: 0; }
 .js .hero__cell { clip-path: inset(0 0 100% 0); }
 .hero.is-in .hero__title .line > * { transform: none; transition: transform 1.3s var(--ease-out); }
 .hero.is-in .hero__title .line:nth-child(2) > * { transition-delay: .12s; }
-.hero.is-in .hero__lead, .hero.is-in .hero__cta, .hero.is-in .hero__scroll {
+.hero.is-in .hero__lead, .hero.is-in .hero__cta {
   opacity: 1;
   transition: opacity 1.2s var(--ease-out) .5s;
 }
@@ -757,34 +734,51 @@ body::after {
 }
 .contacto__text { max-width: 30em; margin: 18px 0 32px; color: var(--muted); font-size: clamp(17px, 1.35vw, 19px); }
 
+/* Saatchi Art: bloque de color sólido con sombra desplazada, como un plano de sus cuadros */
 .saatchi-card {
   position: relative;
-  display: grid;
-  gap: 6px;
-  max-width: 27em;
-  padding: 22px 24px;
-  border: 1.5px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  max-width: min(27em, calc(100% - 12px));
+  padding: 26px 28px;
+  background: var(--ocre);
+  color: var(--negro);
   text-decoration: none;
+  box-shadow: 10px 10px 0 var(--rojo);
   overflow: hidden;
   isolation: isolate;
-  transition: border-color .4s, color .4s;
+  transition: transform .5s var(--ease-out), box-shadow .5s var(--ease-out);
 }
 .saatchi-card::before {
   content: '';
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: var(--ocre);
+  background: var(--cream);
   transform: scaleX(0);
   transform-origin: 0 50%;
   transition: transform .6s var(--ease);
 }
-.saatchi-card:hover { border-color: var(--ocre); color: var(--negro); }
+.saatchi-card:hover { transform: translate(-3px, -3px); box-shadow: 14px 14px 0 var(--rojo); }
 .saatchi-card:hover::before { transform: none; }
-.saatchi-card__label { font: 500 11px/1 var(--sans); letter-spacing: .2em; text-transform: uppercase; color: var(--muted); transition: color .4s; }
-.saatchi-card__name { font: italic 400 32px/1.1 var(--serif); }
-.saatchi-card__text { font-size: 14.5px; line-height: 1.55; color: var(--muted); transition: color .4s; }
-.saatchi-card:hover .saatchi-card__label, .saatchi-card:hover .saatchi-card__text { color: rgba(12, 10, 8, .72); }
+.saatchi-card:focus-visible { outline-color: var(--cream); outline-offset: 5px; }
+.saatchi-card__body { display: grid; gap: 8px; }
+.saatchi-card__label { font: 500 11px/1 var(--sans); letter-spacing: .2em; text-transform: uppercase; opacity: .72; }
+.saatchi-card__name { font: italic 400 clamp(34px, 3.4vw, 46px)/1 var(--serif); letter-spacing: -.01em; }
+.saatchi-card__arrow {
+  flex: none;
+  width: 54px; height: 54px;
+  display: grid;
+  place-items: center;
+  border: 1.5px solid var(--negro);
+  border-radius: 50%;
+  transition: background-color .4s, color .4s;
+}
+.saatchi-card__arrow svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; transition: transform .5s var(--ease-out); }
+.saatchi-card:hover .saatchi-card__arrow { background: var(--negro); color: var(--cream); }
+.saatchi-card:hover .saatchi-card__arrow svg { transform: translate(2px, -2px); }
 
 .contacto__panel { position: relative; padding-top: 8px; }
 .form { display: grid; gap: 30px; }
@@ -1003,7 +997,6 @@ html.is-locked, html.is-locked body { overflow: hidden; }
   }
   .hero__grid { order: -1; height: 56svh; min-height: 320px; gap: 6px; padding: 6px; }
   .hero__title { margin: 14px 0 18px; }
-  .hero__scroll { display: none; }
   .artista__body { grid-template-columns: 1fr; }
   .contacto { grid-template-columns: 1fr; }
   .retrato { position: relative; top: 0; max-width: 460px; }
