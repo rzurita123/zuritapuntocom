@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="es" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Marcelo Zurita — Pintor</title>
+  <meta name="description" content="Galería online de Marcelo Zurita, pintor chileno radicado en Montevideo. Bodegones, puertos y paisajes con la línea y los planos de color de la Escuela del Sur.">
+  <meta name="theme-color" content="#14110e">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Marcelo Zurita — Pintor">
+  <meta property="og:description" content="Bodegones, puertos y paisajes. Línea, tono y color.">
+  <meta property="og:image" content="img/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>(function(d){d.classList.replace('no-js','js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('intro-pending');setTimeout(function(){d.classList.remove('intro-pending')},6000)}})(document.documentElement);</script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Marcelo Zurita",
+    "birthDate": "1958",
+    "birthPlace": "Chile",
+    "jobTitle": "Pintor",
+    "sameAs": ["https://www.saatchiart.com/marcelozurita"]
+  }
+  </script>
+</head>
+<body data-wall="dark">
+
+  <!-- Símbolos reutilizables (herencia del universalismo constructivo) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="s-sol" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.5v3.5M12 19v3.5M1.5 12H5M19 12h3.5M4.6 4.6l2.5 2.5M16.9 16.9l2.5 2.5M4.6 19.4l2.5-2.5M16.9 7.1l2.5-2.5"/></symbol>
+      <symbol id="s-pez" viewBox="0 0 24 24"><path d="M2.5 12C6 6.5 12 6 16.5 12 12 18 6 17.5 2.5 12Z"/><path d="M16.5 12l5-4v8Z"/><circle cx="7" cy="11" r=".6"/></symbol>
+      <symbol id="s-ancla" viewBox="0 0 24 24"><circle cx="12" cy="4.5" r="2"/><path d="M12 6.5V21M7.5 10h9M4 14c0 4.5 3.5 7 8 7s8-2.5 8-7"/></symbol>
+      <symbol id="s-casa" viewBox="0 0 24 24"><path d="M4 21V10l8-6.5 8 6.5v11Z"/><path d="M10 21v-6h4v6"/></symbol>
+      <symbol id="s-estrella" viewBox="0 0 24 24"><path d="M12 2.5l2.8 6.4 6.9.6-5.2 4.6 1.6 6.8L12 17.3l-6.1 3.6 1.6-6.8-5.2-4.6 6.9-.6Z"/></symbol>
+      <symbol id="s-luna" viewBox="0 0 24 24"><path d="M15.5 3a9 9 0 1 0 5.5 13.5A7 7 0 0 1 15.5 3Z"/></symbol>
+      <symbol id="s-barco" viewBox="0 0 24 24"><path d="M3 15h18l-3 5H6Z"/><path d="M12 15V3l6 9h-6"/></symbol>
+      <symbol id="s-reloj" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></symbol>
+      <symbol id="s-firma" viewBox="-8 -8 346 96"><path d="M0 0H50L0 80H50M66 0L91 80L116 0M134 80V0H162C184 0 184 40 162 40H134M156 40L182 80M200 0V80M216 0H268M242 0V80M284 80L309 0L334 80"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="progress" aria-hidden="true"></div>
+
+  <!-- Cortina de transición (intro y navegación) -->
+  <div class="wipe" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span>
+    <div class="wipe__label">
+      <svg class="wipe__firma" viewBox="-8 -8 346 96"><path pathLength="1" d="M0 0H50L0 80H50M66 0L91 80L116 0M134 80V0H162C184 0 184 40 162 40H134M156 40L182 80M200 0V80M216 0H268M242 0V80M284 80L309 0L334 80"/></svg>
+      <span class="wipe__text"></span>
+    </div>
+  </div>
+
+  <div class="cursor" aria-hidden="true"><span>Ver</span></div>
+
+  <header class="nav">
+    <a class="nav__logo" href="#inicio" data-goto="inicio" data-label="Inicio" aria-label="Marcelo Zurita — inicio">
+      <svg viewBox="-8 -8 346 96" aria-hidden="true"><use href="#s-firma"/></svg>
+    </a>
+    <nav class="nav__links" aria-label="Secciones">
+      <a href="#obras" data-goto="obras" data-label="La obra">Obra</a>
+      <a href="#pintura" data-goto="pintura" data-label="La pintura">Pintura</a>
+      <a href="#artista" data-goto="artista" data-label="El artista">Artista</a>
+      <a href="#contacto" data-goto="contacto" data-label="Contacto">Contacto</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ============ PORTADA ============ -->
+    <section class="hero" id="inicio" data-wall="dark">
+      <div class="hero__text">
+        <p class="eyebrow hero__eyebrow"><span>Pintor</span><span>Chile, 1958</span><span>Montevideo</span></p>
+        <h1 class="hero__title">
+          <span class="line"><span>Marcelo</span></span>
+          <span class="line"><em>Zurita</em></span>
+        </h1>
+        <p class="hero__lead">Línea, tono y color. Bodegones, puertos y paisajes del sur, pintados con la estructura de la Escuela del Sur y una paleta de ocres y grises.</p>
+        <div class="hero__cta">
+          <a class="btn btn--solid" href="#obras" data-goto="obras" data-label="La obra"><span>Entrar a la galería</span></a>
+          <a class="btn" href="#artista" data-goto="artista" data-label="El artista"><span>Conocer al artista</span></a>
+        </div>
+      </div>
+      <div class="hero__grid" aria-label="Obras destacadas"></div>
+      <a class="hero__scroll" href="#obras" data-goto="obras" data-label="La obra" aria-label="Ir a la galería"><span></span></a>
+    </section>
+
+    <!-- ============ MARQUESINA ============ -->
+    <div class="marquee" aria-hidden="true"><div class="marquee__track"></div></div>
+
+    <!-- ============ GALERÍA ============ -->
+    <section class="obras" id="obras" data-wall="dark">
+      <header class="section-head">
+        <p class="eyebrow">I — Galería</p>
+        <h2 class="section-title reveal-up">La <em>obra</em></h2>
+        <p class="obras__count reveal-up"></p>
+      </header>
+      <div class="filters" role="toolbar" aria-label="Filtrar por serie">
+        <span class="filters__ink" aria-hidden="true"></span>
+      </div>
+      <div class="gallery"></div>
+      <noscript><p class="noscript">Activá JavaScript para ver la galería.</p></noscript>
+    </section>
+
+    <!-- ============ LA PINTURA ============ -->
+    <section class="pintura" id="pintura" data-wall="umber">
+      <header class="section-head">
+        <p class="eyebrow">II — Sobre la obra</p>
+        <h2 class="section-title reveal-up">La <em>pintura</em></h2>
+      </header>
+      <p class="statement">
+        Zurita pinta con línea firme y planos de color. Sus bodegones —botellas, jarras, cafeteras y frutas sobre la mesa— se ordenan en una estructura constructiva heredada de la Escuela del Sur, donde el objeto es, antes que nada, un pretexto para la pintura. En sus puertos hay humo, grúas y gente de paso; en sus paisajes vuelve siempre el sur de Chile: los ríos, los bosques, los pueblos al atardecer.
+      </p>
+      <blockquote class="quote reveal-up">
+        <p>“Los silenciosos objetos son vestidos de líneas y colores, pasando a ser finalmente un pretexto al servicio de la pintura.”</p>
+        <cite>— M. Z.</cite>
+      </blockquote>
+
+      <div class="palette" aria-label="La paleta del pintor">
+        <div class="palette__head">
+          <p class="eyebrow">La paleta</p>
+          <p class="palette__note">Rojos de hierro, ocres, azules y cafés. La línea en negro, en diferente grosor.</p>
+        </div>
+        <div class="palette__bars">
+          <button class="swatch" style="--c:#b8873a" data-name="Ocre"><span>Ocre</span><small>#b8873a</small></button>
+          <button class="swatch" style="--c:#8a837b" data-name="Gris"><span>Gris</span><small>#8a837b</small></button>
+          <button class="swatch" style="--c:#8f3a26" data-name="Rojo de hierro"><span>Rojo de hierro</span><small>#8f3a26</small></button>
+          <button class="swatch" style="--c:#3a557c" data-name="Azul"><span>Azul</span><small>#3a557c</small></button>
+          <button class="swatch" style="--c:#5b3b27" data-name="Café"><span>Café</span><small>#5b3b27</small></button>
+          <button class="swatch" style="--c:#16110d" data-name="Negro"><span>Negro</span><small>#16110d</small></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EL ARTISTA ============ -->
+    <section class="artista" id="artista" data-wall="linen">
+      <header class="section-head">
+        <p class="eyebrow">III — Biografía</p>
+        <h2 class="section-title reveal-up">El <em>artista</em></h2>
+      </header>
+
+      <div class="artista__body">
+        <figure class="retrato">
+          <div class="retrato__grid">
+            <div class="retrato__cell retrato__cell--foto">
+              <picture>
+                <source srcset="img/artista.webp" type="image/webp">
+                <img src="img/artista.jpg" alt="Marcelo Zurita en su taller, junto a uno de sus cuadros" width="300" height="300" loading="lazy">
+              </picture>
+            </div>
+            <div class="retrato__cell retrato__cell--ocre"><svg><use href="#s-sol"/></svg></div>
+            <div class="retrato__cell retrato__cell--rojo"><svg><use href="#s-pez"/></svg></div>
+            <div class="retrato__cell retrato__cell--azul"><svg><use href="#s-luna"/></svg></div>
+            <div class="retrato__cell retrato__cell--gris"><svg><use href="#s-casa"/></svg></div>
+            <div class="retrato__cell retrato__cell--firma"><svg viewBox="-8 -8 346 96"><use href="#s-firma"/></svg></div>
+          </div>
+          <figcaption>Marcelo Zurita en el taller</figcaption>
+        </figure>
+
+        <div class="bio">
+          <p class="bio__lead reveal-up">Zurita nació en Chile (1958) donde su padre pintaba escenas de cordilleras y campos.</p>
+          <p class="reveal-up">Viajó a Montevideo buscando rastros de la Escuela del Sur, ingresando al taller del maestro Anhelo Hernández, discípulo de Joaquín Torres-García. De allí que en la obra de Zurita suelen verse influencias orientales. Sin embargo, su paleta —que valora los ocres y los grises— mantiene cierta impronta transandina.</p>
+          <p class="reveal-up">Su pintura ha sido expuesta en Santiago de Chile, Osorno, Puerto Montt y Valparaíso. En Uruguay participa del Taller de Clever Lara, y expone durante las muestras del colectivo. La obra de Zurita también se encuentra en colecciones particulares de la región y Europa.</p>
+        </div>
+      </div>
+
+      <ol class="timeline">
+        <li><span class="timeline__mark"><svg><use href="#s-sol"/></svg></span><strong>1958</strong><p>Nace en Chile. Su padre pinta cordilleras y campos.</p></li>
+        <li><span class="timeline__mark"><svg><use href="#s-barco"/></svg></span><strong>Montevideo</strong><p>Taller del maestro Anhelo Hernández, discípulo de Torres-García.</p></li>
+        <li><span class="timeline__mark"><svg><use href="#s-estrella"/></svg></span><strong>Chile</strong><p>Expone en Santiago, Osorno, Puerto Montt y Valparaíso.</p></li>
+        <li><span class="timeline__mark"><svg><use href="#s-casa"/></svg></span><strong>Uruguay</strong><p>Taller de Clever Lara y muestras del colectivo.</p></li>
+        <li><span class="timeline__mark"><svg><use href="#s-ancla"/></svg></span><strong>Colecciones</strong><p>Obra en colecciones particulares de la región y Europa.</p></li>
+      </ol>
+    </section>
+
+    <!-- ============ CONTACTO ============ -->
+    <section class="contacto" id="contacto" data-wall="dark">
+      <p class="eyebrow">IV — Contacto</p>
+      <h2 class="contacto__title reveal-up">¿Te interesa<br>una <em>obra</em>?</h2>
+      <p class="contacto__text reveal-up">Muy pronto vas a poder adquirir obra original directamente en este sitio. Mientras tanto, parte de la obra está disponible en Saatchi Art.</p>
+      <div class="hero__cta reveal-up">
+        <a class="btn btn--solid" href="https://www.saatchiart.com/marcelozurita" target="_blank" rel="noopener"><span>Ver en Saatchi Art ↗</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" data-wall="dark">
+    <svg class="footer__firma" viewBox="-8 -8 346 96" aria-hidden="true"><path pathLength="1" d="M0 0H50L0 80H50M66 0L91 80L116 0M134 80V0H162C184 0 184 40 162 40H134M156 40L182 80M200 0V80M216 0H268M242 0V80M284 80L309 0L334 80"/></svg>
+    <div class="footer__row">
+      <span>© <span class="footer__year">2026</span> Marcelo Zurita</span>
+      <span>Imágenes © del artista. Prohibida su reproducción.</span>
+      <a href="#inicio" data-goto="inicio" data-label="Inicio">Volver arriba ↑</a>
+    </div>
+  </footer>
+
+  <!-- ============ VISOR ============ -->
+  <div class="viewer" role="dialog" aria-modal="true" aria-labelledby="viewer-title" hidden>
+    <div class="viewer__bg"></div>
+    <div class="viewer__stage">
+      <div class="viewer__frame">
+        <img class="viewer__img" alt="">
+      </div>
+      <div class="loupe" aria-hidden="true"></div>
+    </div>
+    <aside class="viewer__info">
+      <p class="viewer__count"></p>
+      <h2 class="viewer__title" id="viewer-title"></h2>
+      <dl class="viewer__meta"></dl>
+      <p class="viewer__desc"></p>
+      <div class="viewer__actions">
+        <button class="viewer__loupe-btn" type="button" aria-pressed="false">
+          <svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
+          <span>Lupa: ver textura</span>
+        </button>
+        <a class="viewer__saatchi" target="_blank" rel="noopener">Ver en Saatchi Art ↗</a>
+      </div>
+    </aside>
+    <div class="viewer__nav">
+      <button class="viewer__prev" type="button" aria-label="Obra anterior"><svg viewBox="0 0 24 24"><path d="M15 4 7 12l8 8"/></svg></button>
+      <button class="viewer__next" type="button" aria-label="Obra siguiente"><svg viewBox="0 0 24 24"><path d="m9 4 8 8-8 8"/></svg></button>
+    </div>
+    <button class="viewer__close" type="button" aria-label="Cerrar"><span></span><span></span></button>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

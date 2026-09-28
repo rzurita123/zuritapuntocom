@@ -1,0 +1,14 @@
+{
+  "name": "zuritapuntocom",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Galería online de Marcelo Zurita",
+  "type": "module",
+  "scripts": {
+    "images": "node scripts/build-images.mjs",
+    "dev": "npx --yes serve -l 5173 ."
+  },
+  "devDependencies": {
+    "sharp": "^0.34.0"
+  }
+}

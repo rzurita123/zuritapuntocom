@@ -1,0 +1,488 @@
+// Catálogo de obras de Marcelo Zurita.
+//
+// Es la única fuente de datos del sitio: textos, orden y origen de cada imagen.
+// Para agregar un cuadro:
+//   1. Poné la foto original en assets/ (cualquier tamaño, idealmente >= 1600 px de ancho).
+//   2. Agregá una entrada acá abajo (el orden del array es el orden de la galería).
+//   3. Corré `npm run images` para generar las versiones optimizadas en img/obras/.
+//
+// Campos:
+//   slug        identificador único, se usa en la URL (#obra/<slug>) y en los nombres de archivo
+//   titulo      título tal como lo nombra el artista
+//   anio        año de realización (null si no se conoce)
+//   tecnica     técnica y soporte
+//   medidas     [a, b] en cm, en cualquier orden: el sitio las muestra alto × ancho según la imagen
+//   serie       'bodegones' | 'puertos' | 'paisajes' | 'figuras'
+//   descripcion texto del artista (puede quedar vacío)
+//   fuente      { archivo, recorte? } — recorte = { left, top, width, height } en px del original
+//   saatchi     ruta de la obra en saatchiart.com/art/… (opcional)
+//   destacada   si aparece en el collage de portada
+
+export const series = {
+  bodegones: 'Bodegones',
+  puertos: 'Puertos y ciudad',
+  paisajes: 'Paisajes',
+  figuras: 'Figuras',
+};
+
+const WA = 'assets/WhatsApp Image 2026-09-27 at ';
+const S = 'assets/saatchi/';
+
+export const obras = [
+  {
+    slug: 'still-life-with-teapot',
+    titulo: 'Still life with teapot',
+    anio: 2014,
+    tecnica: 'Óleo y acrílico sobre madera',
+    medidas: [102, 72],
+    serie: 'bodegones',
+    descripcion:
+      'La obra, inspirada en los trabajos constructivos de la Escuela del Sur, presenta amplios planos de color acompañados de una línea fuerte, destacada y firme, que marca el contorno de los objetos del bodegón. Si bien aquella corriente utilizó preferentemente una exquisita paleta baja, rica en tonos de ocre y de gris, aquí el artista opta por una paleta más alta, descuidando inclusive la forma de los objetos, convirtiéndolos así únicamente en un pretexto de la cosa plástica.',
+    fuente: { archivo: WA + '3.41.05 PM.jpeg' },
+    saatchi: 'Painting-Still-life-with-teapot/764219/2345245',
+    destacada: true,
+  },
+  {
+    slug: 'la-nina-en-el-cafe',
+    titulo: 'La niña en el café',
+    anio: 2026,
+    tecnica: 'Óleo sobre tabla',
+    medidas: [30, 25],
+    serie: 'puertos',
+    descripcion:
+      'Es una escena con un toque de misterio. Mientras un personaje lee el diario y la dueña del bar permanece atenta en primer plano, una joven moza se dispone a continuar sirviendo a los clientes, pero algo la detiene. Tal vez un recuerdo, una voz, un antiguo aroma de melancolía.',
+    fuente: { archivo: S + 'la-nina-en-el-cafe.jpg' },
+    saatchi: 'Painting-La-nina-en-el-cafe/764219/13818311',
+    destacada: true,
+  },
+  {
+    slug: 'la-oveja-descansa-afuera',
+    titulo: 'La oveja descansa, afuera',
+    anio: 2026,
+    tecnica: 'Acrílico y óleo sobre lienzo',
+    medidas: [90, 60],
+    serie: 'paisajes',
+    descripcion: 'Obra en acrílico y óleo, sobre lienzo. Paisaje onírico, nostalgias del campo y las sierras.',
+    fuente: { archivo: WA + '4.03.25 PM.jpeg' },
+    saatchi: 'Painting-La-oveja-descansa-afuera/764219/14135591',
+    destacada: true,
+  },
+  {
+    slug: 'escena-de-puerto-iii',
+    titulo: 'Escena de puerto III',
+    anio: 2024,
+    tecnica: 'Óleo sobre lienzo',
+    medidas: [34, 26],
+    serie: 'puertos',
+    descripcion:
+      'A partir de una típica escena de puerto, este óleo —de formato más bien pequeño— fue creado con una paleta baja, sin colores estridentes. La línea claramente marca contornos, inclusive en la forma del humo que se diluye hacia la izquierda del cuadro.',
+    fuente: { archivo: S + 'escena-de-puerto-iii.jpg' },
+    saatchi: 'Painting-Escena-de-puerto-III/764219/12724761',
+    destacada: true,
+  },
+  {
+    slug: 'sin-titulo-jazz',
+    titulo: 'Sin título',
+    anio: null,
+    tecnica: '',
+    medidas: null,
+    serie: 'figuras',
+    descripcion: '',
+    fuente: { archivo: WA + '4.00.30 PM.jpeg', recorte: { left: 34, top: 30, width: 1452, height: 944 } },
+    destacada: true,
+  },
+  {
+    slug: 'despedida-del-pueblo',
+    titulo: 'Despedida del pueblo',
+    anio: 2024,
+    tecnica: 'Óleo sobre lienzo',
+    medidas: [80, 60],
+    serie: 'paisajes',
+    descripcion: 'Un paisaje melancólico, en las cercanías del pueblo.',
+    fuente: { archivo: WA + '3.53.19 PM.jpeg', recorte: { left: 14, top: 14, width: 1320, height: 1044 } },
+    saatchi: 'Painting-Despedida-del-pueblo/764219/12830707',
+    destacada: true,
+  },
+  {
+    slug: 'bodegon-con-pipa-blanca',
+    titulo: 'Bodegón con pipa blanca',
+    anio: 2022,
+    tecnica: 'Acrílico y óleo sobre lienzo',
+    medidas: [80, 60],
+    serie: 'bodegones',
+    descripcion:
+      'Bodegón con pipa blanca es una obra inspirada en una serie de objetos que descansaban sobre una mesa. Por la ventana puede verse una típica casa de campo, lejana. Una jarrita celeste, una botella azul, una pipa blanca, son el pretexto perfecto para dar forma a esta obra pintada sobre soporte de lienzo, con acrílicos y óleos.',
+    fuente: { archivo: S + 'bodegon-con-pipa-blanca.jpg' },
+    saatchi: 'Painting-Bodegon-con-pipa-blanca/764219/9744233',
+    destacada: true,
+  },
+  {
+    slug: 'bodegon-con-sandia-y-botella',
+    titulo: 'Bodegón, con sandía y botella',
+    anio: 2005,
+    tecnica: 'Acrílico y óleo sobre lienzo',
+    medidas: [50, 40],
+    serie: 'bodegones',
+    descripcion:
+      'La obra está inspirada en el verano. La sandía es una noble fruta, potente símbolo de la estación estival. Aquí, un rojo trozo de sandía descansa sobre la mesa, dialogando con los verdes de una botella.',
+    fuente: { archivo: WA + '3.41.35 PM.jpeg' },
+    saatchi: 'Painting-Bodegon-con-sandia-y-botella/764219/4406450',
+    destacada: true,
+  },
+  {
+    slug: 'sin-titulo-bodegon',
+    titulo: 'Sin título',
+    anio: null,
+    tecnica: '',
+    medidas: null,
+    serie: 'bodegones',
+    descripcion: '',
+    fuente: { archivo: WA + '3.53.19 PM (1).jpeg', recorte: { left: 80, top: 40, width: 1380, height: 1040 } },
+  },
+  {
+    slug: 'bodegon-con-pipa-y-compas',
+    titulo: 'Bodegón con pipa y compás',
+    anio: 2025,
+    tecnica: 'Acrílico y óleo sobre lienzo',
+    medidas: [90, 60],
+    serie: 'bodegones',
+    descripcion:
+      'Si bien la obra está inspirada en los típicos bodegones de taller y la práctica de la pintura, se deconstruye sin embargo, alcanzando pliegues que rozan lo onírico, lo surrealista. Surgen de pronto, en diferentes planos, los objetos, las frutas, un compás áureo, los marcos y bastidores del pintor. Mientras tanto, un cuadro dentro del cuadro —o una ventana, en el ángulo superior izquierdo— sugiere un enigmático juego de interior-exterior que agrega cierta cuota de misterio a la obra.',
+    fuente: { archivo: S + 'bodegon-con-pipa-y-compas.jpg', recorte: { left: 200, top: 192, width: 1496, height: 994 } },
+    saatchi: 'Painting-Bodegon-con-pipa-y-compas/764219/13237105',
+  },
+  {
+    slug: 'mateando-en-pueblo-eden',
+    titulo: 'Mateando en pueblo Edén',
+    anio: 2026,
+    tecnica: 'Acrílico y óleo sobre lienzo',
+    medidas: [45, 45],
+    serie: 'paisajes',
+    descripcion:
+      'Observando el paisaje de campo, el artista captura un instante a las orillas del arroyo “Pintado”, que serpentea por Pueblo Edén. Al fondo, el caserío, los árboles y la parroquia del pueblo. En primer plano dos gauchos comparten un mate amargo, al tiempo que analizan con ritmo pausado lo vertiginoso del mundo actual. Mientras tanto, al caballo poco parece interesarle el diálogo aquél, y continúa pastando.',
+    fuente: { archivo: S + 'mateando-en-pueblo-eden.jpg' },
+    saatchi: 'Painting-Mateando-en-pueblo-Eden/764219/13986201',
+  },
+  {
+    slug: 'el-gran-molinillo',
+    titulo: 'El gran molinillo',
+    anio: 2026,
+    tecnica: 'Óleo sobre cartón prensado',
+    medidas: [50, 40],
+    serie: 'bodegones',
+    descripcion:
+      'El clásico bodegón utilizado para las clases de pintura suele convertirse en una obra donde los silenciosos objetos —generalmente de la cocina cotidiana— son vestidos de líneas y colores, pasando a ser finalmente un pretexto al servicio de la pintura.',
+    fuente: { archivo: S + 'el-gran-molinillo.jpg' },
+    saatchi: 'Painting-El-gran-molinillo/764219/14068481',
+  },
+  {
+    slug: 'la-diligencia',
+    titulo: 'La diligencia',
+    anio: 2026,
+    tecnica: 'Óleo sobre cartón corrugado',
+    medidas: [30, 20],
+    serie: 'paisajes',
+    descripcion:
+      'Las carretas solían cruzar la Sierra de Carapé, llevando víveres, cartas, periódicos, a las zonas más retiradas del paisaje oriental. Los caminos solitarios, los grandes pastizales, las aves a lo lejos, eran testigos de esta escena que incluía el sonido cansado de los cascos del caballo, los ejes escasamente aceitados, y un tenue silbido del conductor.',
+    fuente: { archivo: S + 'la-diligencia.jpg' },
+    saatchi: 'Painting-La-diligencia/764219/14072699',
+  },
+  {
+    slug: 'escena-de-bar',
+    titulo: 'Escena de bar',
+    anio: 2026,
+    tecnica: 'Óleo sobre lienzo',
+    medidas: [25, 15],
+    serie: 'puertos',
+    descripcion:
+      'Inspirada en una típica escena de bar, esta obra recrea una clásica postal de la ciudad. Un mozo camina con tragos en su bandeja, concentrado en su trabajo de atender las mesas. Mientras tanto, una pareja que ha buscado refugio al interior del bar interrumpe brevemente su diálogo para atender al muchacho que les ofrece diarios y revistas.',
+    fuente: { archivo: S + 'escena-de-bar.jpg' },
+    saatchi: 'Painting-Escena-de-bar/764219/13843001',
+  },
+  {
+    slug: 'rio-de-la-montana',
+    titulo: 'Río de la montaña',
+    anio: 2026,
+    tecnica: 'Acrílico sobre lienzo',
+    medidas: [35, 25],
+    serie: 'paisajes',
+    descripcion:
+      'Los ríos del sur de Chile suelen inspirar al pintor. Una caída de agua, un torrente veloz, los saltos del Petrohué… son postales de incomparable belleza. Paisajes eternos, a la vez que efímeros. Instantes en que cruza el agua cristalina y fría a gran velocidad, para calmarse luego, río abajo, en un breve momento de contemplación y tranquilidad.',
+    fuente: { archivo: S + 'rio-de-la-montana.jpg' },
+    saatchi: 'Painting-Rio-de-la-montana/764219/13944535',
+  },
+  {
+    slug: 'la-casa-de-campo',
+    titulo: 'La casa de campo',
+    anio: 2026,
+    tecnica: 'Acrílico y óleo sobre papel',
+    medidas: [30, 21],
+    serie: 'figuras',
+    descripcion:
+      'Una joven pensativa está sentada al interior de una casa de campo. Puede verse por la ventana el paisaje al atardecer. Todo transcurre en calma, como pocos momentos en la vida…',
+    fuente: { archivo: S + 'la-casa-de-campo.jpg', recorte: { left: 0, top: 0, width: 1186, height: 1726 } },
+    saatchi: 'Painting-La-casa-de-campo/764219/13858523',
+  },
+  {
+    slug: 'perspectiva-invertida',
+    titulo: 'Perspectiva invertida',
+    anio: 2025,
+    tecnica: 'Óleo sobre lienzo',
+    medidas: [24, 24],
+    serie: 'bodegones',
+    descripcion:
+      'La obra representa una naturaleza muerta dispuesta en primer plano, mientras de fondo se observa un típico paisaje de campo. Está inspirada en los ejercicios de perspectiva invertida, cuyo efecto puede verse en la mesa de superficie blanca, sobre la cual descansan los objetos.',
+    fuente: { archivo: S + 'perspectiva-invertida.jpg' },
+    saatchi: 'Painting-Perspectiva-invertida/764219/12678175',
+  },
+  {
+    slug: 'desayuno-en-el-puerto',
+    titulo: 'Desayuno en el puerto',
+    anio: 2024,
+    tecnica: 'Óleo sobre cartón corrugado',
+    medidas: [60, 35],
+    serie: 'puertos',
+    descripcion:
+      'Muchas pinturas, de esas que representan clásicas escenas de puerto, permanecen en la memoria. De allí que uno puede utilizar ese recurso —la memoria, el recuerdo— para recrear un paisaje con características de escena de puerto, con un primer plano mostrando objetos de una mesa fresca de desayuno veraniego.',
+    fuente: { archivo: S + 'desayuno-en-el-puerto.jpg' },
+    saatchi: 'Painting-Desayuno-en-el-puerto/764219/12462459',
+  },
+  {
+    slug: 'el-diario',
+    titulo: 'El diario',
+    anio: 2024,
+    tecnica: 'Acrílico y óleo sobre lienzo',
+    medidas: [90, 60],
+    serie: 'bodegones',
+    descripcion: 'Daily Sun es un bodegón con jarra azul y pipa blanca. Planos de vivos colores, líneas y contornos bien marcados.',
+    fuente: { archivo: S + 'el-diario.jpg' },
+    saatchi: 'Painting-El-diario/764219/11683131',
+  },
+  {
+    slug: 'eva-y-adan-en-el-sur-de-chile',
+    titulo: 'Eva y Adán, en el sur de Chile',
+    anio: 2024,
+    tecnica: 'Óleo sobre cartón corrugado',
+    medidas: [87, 75],
+    serie: 'paisajes',
+    descripcion:
+      'La belleza del sur chileno, con sus bosques nativos de grandes ejemplares, sus lagos y ríos con agua fresca, y el aire limpio que penetra en los pulmones, permite suponer que pudo haber sido el sitio escogido para Eva y Adán, durante la creación.',
+    fuente: { archivo: S + 'eva-y-adan-en-el-sur-de-chile.jpg' },
+    saatchi: 'Painting-Eva-y-Adan-en-el-sur-de-Chile/764219/12354253',
+  },
+  {
+    slug: 'pequeno-bodegon',
+    titulo: 'Pequeño bodegón',
+    anio: 2023,
+    tecnica: 'Óleo sobre tabla',
+    medidas: [35, 22],
+    serie: 'bodegones',
+    descripcion:
+      'La obra está inspirada en objetos de uso común y elementos típicos de la mesa o la cocina: peras, vaso, jarra, tabla de picar. Pero parece haber también un plano exterior, a lo lejos, visible desde una ventana. Todo parece estar dispuesto sobre la mesa; especialmente el tono, la línea y el color, una especial trilogía que hace posible la creación de una atmósfera metafísica y tierna.',
+    fuente: { archivo: S + 'pequeno-bodegon.jpg' },
+    saatchi: 'Painting-Pequeno-bodegon/764219/12369845',
+  },
+  {
+    slug: 'paisaje-metafisico',
+    titulo: 'Paisaje metafísico',
+    anio: 2023,
+    tecnica: 'Óleo y acrílico sobre lienzo',
+    medidas: [80, 70],
+    serie: 'paisajes',
+    descripcion: 'Paisaje metafísico, imágenes solitarias, silenciosas. Geografía tonal, estructura y línea. Constructivo.',
+    fuente: { archivo: S + 'paisaje-metafisico.jpg' },
+    saatchi: 'Painting-Paisaje-metafisico/764219/10481119',
+  },
+  {
+    slug: 'escena-religiosa',
+    titulo: 'Escena religiosa',
+    anio: 2022,
+    tecnica: 'Acrílico sobre lienzo',
+    medidas: [40, 30],
+    serie: 'figuras',
+    descripcion:
+      'Una escena religiosa, a propósito de la Semana Santa, e inspirada en la pintura de Rouault. El Cristo crucificado con personajes en primer plano.',
+    fuente: { archivo: S + 'escena-religiosa.jpg' },
+    saatchi: 'Painting-Escena-religiosa/764219/9147357',
+  },
+  {
+    slug: 'la-espera',
+    titulo: 'La espera',
+    anio: 2021,
+    tecnica: 'Acrílico y óleo sobre lienzo',
+    medidas: [72, 52],
+    serie: 'figuras',
+    descripcion:
+      'Inspirada en el sentimiento de espera de una pareja, esta obra busca completar su mensaje en la mirada del espectador. La expectativa de una espera supone también esperanza y amor.',
+    fuente: { archivo: S + 'la-espera.jpg' },
+    saatchi: 'Painting-La-espera/764219/8882096',
+  },
+  {
+    slug: 'bodegon-con-bananas-que-flotan',
+    titulo: 'Bodegón, con bananas que flotan',
+    anio: 2021,
+    tecnica: 'Acrílico, óleo y grafito sobre lienzo',
+    medidas: [80, 60],
+    serie: 'bodegones',
+    descripcion:
+      'Un colorido bodegón muestra una sandía bien madura. Hay también una botella, unos pescados sobre el plato. Objetos, entre planos de color. Pero lo más llamativo es un par de bananas que parecen flotar, como si nada. Ignorando los elementos básicos del dibujo (y de la fuerza de gravedad) estos plátanos, en su curiosa ubicación, iban a ser eliminados del cuadro. Sin embargo, el pintor decidió dejarlo así. Su nieto, tal vez, sea el culpable de esto: —Déjalo así, abuelo —habrá dicho el niño—. Todo el mundo sabe que las bananas suelen flotar, cuando están contentas…',
+    fuente: { archivo: S + 'bodegon-con-bananas-que-flotan.jpg' },
+    saatchi: 'Painting-Bodegon-con-bananas-que-flotan/764219/8825772',
+  },
+  {
+    slug: 'bodegon-con-botella-de-chianti',
+    titulo: 'Bodegón con botella de Chianti',
+    anio: 2020,
+    tecnica: 'Acrílico sobre lienzo',
+    medidas: [25, 19],
+    serie: 'bodegones',
+    descripcion: 'Un grupo de objetos sobre la mesa. Entre ellos, una botella de Chianti.',
+    fuente: { archivo: S + 'bodegon-con-botella-de-chianti.jpg' },
+    saatchi: 'Painting-Bodegon-con-botella-de-Chianti/764219/7930189',
+  },
+  {
+    slug: 'pequeno-puerto',
+    titulo: 'Pequeño puerto',
+    anio: 2020,
+    tecnica: 'Óleo sobre lienzo',
+    medidas: [24, 18],
+    serie: 'puertos',
+    descripcion: 'Una escena de puerto. Típico paisaje de la zona portuaria de la ciudad. Óleo sobre bastidor, de pequeñas dimensiones.',
+    fuente: { archivo: S + 'pequeno-puerto.jpg' },
+    saatchi: 'Painting-Pequeno-puerto/764219/12500735',
+  },
+  {
+    slug: 'autumn-woman',
+    titulo: 'Autumn woman',
+    anio: 2020,
+    tecnica: 'Óleo y acrílico sobre cartón entelado',
+    medidas: [50, 35],
+    serie: 'figuras',
+    descripcion:
+      'Una nueva obra de la serie Mujer de otoño. La obra, inspirada en la paleta baja, luce rojos de hierro, ocres, azules y cafés o marrón. Destaca también la línea en negro, en diferente grosor.',
+    fuente: { archivo: S + 'autumn-woman.jpg' },
+    saatchi: 'Painting-Autumn-woman/764219/7495869',
+  },
+  {
+    slug: 'bodegon-con-jarrita-verde-y-ajo',
+    titulo: 'Bodegón con jarrita verde y ajo',
+    anio: 2019,
+    tecnica: 'Acrílico y óleo sobre lienzo',
+    medidas: [15, 10],
+    serie: 'bodegones',
+    descripcion: 'Un grupo de frutas y objetos, sobre la pequeña mesa. Eso es todo.',
+    fuente: { archivo: S + 'bodegon-con-jarrita-verde-y-ajo.jpg' },
+    saatchi: 'Painting-Bodegon-con-jarrita-verde-y-ajo/764219/6756505',
+  },
+  {
+    slug: 'la-jarrita-blanca',
+    titulo: 'La jarrita blanca',
+    anio: 2018,
+    tecnica: 'Acrílico sobre cartón corrugado',
+    medidas: [50, 34],
+    serie: 'bodegones',
+    descripcion:
+      'Inspirada en los bodegones de la Escuela del Sur, la obra presenta coloridos planos de color con una jarra blanca como protagonista, entre frutas y líneas horizontales y verticales que completan el encuadre.',
+    fuente: { archivo: S + 'la-jarrita-blanca.jpg' },
+    saatchi: 'Painting-La-jarrita-blanca/764219/12022631',
+  },
+  {
+    slug: 'personaje-con-camisa-blanca',
+    titulo: 'Personaje con camisa blanca',
+    anio: 2018,
+    tecnica: 'Acrílico y óleo sobre lienzo',
+    medidas: [70, 50],
+    serie: 'figuras',
+    descripcion: 'Un personaje con camisa blanca, hecho de mancha y línea. Una suerte de ensayo para retrato, emulando a grandes pintores.',
+    fuente: { archivo: S + 'personaje-con-camisa-blanca.jpg' },
+    saatchi: 'Painting-Personaje-con-camisa-blanca/764219/6391601',
+  },
+  {
+    slug: 'nocturnos-de-chopin',
+    titulo: 'Nocturnos de Chopin',
+    anio: 2016,
+    tecnica: 'Óleo sobre lienzo',
+    medidas: [40, 30],
+    serie: 'figuras',
+    descripcion:
+      'La madre del pintor solía sentarse al piano durante las tardes. La pintura retrata uno de aquellos momentos: la señora María tocando los nocturnos de Chopin.',
+    fuente: { archivo: S + 'nocturnos-de-chopin.jpg' },
+    saatchi: 'Painting-Nocturnos-de-Chopin/764219/3656399',
+  },
+  {
+    slug: 'cuatro-manzanas',
+    titulo: 'Cuatro manzanas',
+    anio: 2016,
+    tecnica: 'Óleo sobre papel pegado a madera',
+    medidas: [42, 32],
+    serie: 'bodegones',
+    descripcion: 'Cuatro manzanas y una taza con interior rojo. El paño sobre la mesa rústica completa esta escena.',
+    fuente: { archivo: S + 'cuatro-manzanas.jpg', recorte: { left: 0, top: 0, width: 1896, height: 2486 } },
+    saatchi: 'Painting-Cuatro-manzanas/764219/3215200',
+  },
+  {
+    slug: 'paisaje-de-chiloe',
+    titulo: 'Paisaje de Chiloé',
+    anio: 2016,
+    tecnica: 'Óleo sobre lienzo',
+    medidas: [68, 58],
+    serie: 'paisajes',
+    descripcion:
+      'La isla grande, al sur de Puerto Montt, conserva sus paisajes, su cultura y tradiciones. Sus cielos permanentemente cargados de lluvia permiten a veces una tregua para mirar a lo lejos. Las extensas playas de la isla de Chiloé mantienen su misterio; sus leyendas de personajes mitológicos, sus relatos de naufragios en tormentas semejantes al diluvio universal.',
+    fuente: { archivo: S + 'paisaje-de-chiloe.jpg' },
+    saatchi: 'Painting-Paisaje-de-Chiloe/764219/2915037',
+  },
+  {
+    slug: 'tapestry',
+    titulo: 'Tapestry',
+    anio: 2015,
+    tecnica: 'Óleo sobre lienzo',
+    medidas: [70, 50],
+    serie: 'figuras',
+    descripcion:
+      'Esta serie viene en paleta baja. Dominan los tonos típicos de chamantos y telares indígenas, con algunos grafismos y cierta figuración ingenua. Una tela más primitiva y lúdica, con ritmos y líneas que semejan un lenguaje escrito.',
+    fuente: { archivo: S + 'tapestry.jpg' },
+    saatchi: 'Painting-Tapestry/764219/2662453',
+  },
+  {
+    slug: 'bodegon-con-damajuana-y-pan',
+    titulo: 'Bodegón con damajuana y pan',
+    anio: 2015,
+    tecnica: 'Óleo y acrílico sobre lienzo',
+    medidas: [35, 27],
+    serie: 'bodegones',
+    descripcion:
+      'Un trozo de pan flauta, una garrafa de vino, una jarrita blanca. Era un pequeño y tierno modelo de bodegón que anhelaba estar en la tela del bastidor para permanecer ahí, y trascender.',
+    fuente: { archivo: S + 'bodegon-con-damajuana-y-pan.jpg' },
+    saatchi: 'Painting-Bodegon-con-damajuana-y-pan/764219/2553642',
+  },
+  {
+    slug: 'puerto-del-sur',
+    titulo: 'Puerto del sur',
+    anio: 2014,
+    tecnica: 'Óleo sobre lienzo',
+    medidas: [35, 27],
+    serie: 'puertos',
+    descripcion:
+      'Llegan desde lejos. Vienen del otro lado del mundo, hasta este pequeño puerto. Son naves enormes que acaban de surcar los mares desafiando tormentas, para llegar al sur. Hace unos minutos —a lo lejos— parecían diminutos barcos de juguete. Pero son gigantescos y ya están acá. Permanecerán unos días descargando sus tesoros, mientras los marineros se emborrachan de lo lindo en las tabernas y boliches de la ciudad vieja.',
+    fuente: { archivo: S + 'puerto-del-sur.jpg' },
+    saatchi: 'Painting-Puerto-del-sur/764219/2377921',
+  },
+  {
+    slug: 'bodegon-humilde',
+    titulo: 'Bodegón humilde',
+    anio: 2014,
+    tecnica: 'Óleo y acrílico sobre papel',
+    medidas: [42, 32],
+    serie: 'bodegones',
+    descripcion:
+      'Un bowl, un trapo, una fruta. Un bodegón muy pequeño; humilde, si se quiere. Ahora quedó plasmado aquí, en óleo sobre papel, enmarcado y todo. Pero sigue conservando su silencio y cierto grado de humildad.',
+    fuente: { archivo: S + 'bodegon-humilde.jpg' },
+    saatchi: 'Painting-Bodegon-humilde/764219/2610478',
+  },
+];
+
+export const artista = {
+  foto: 'assets/Marcelo Zurita foto.jpg',
+  saatchiPerfil: 'https://www.saatchiart.com/marcelozurita',
+};
