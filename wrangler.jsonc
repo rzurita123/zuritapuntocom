@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "zuritapuntocom",
+  "compatibility_date": "2026-09-26",
+  "observability": {
+    "enabled": true
+  },
+  // Sitio 100 % estático: se publican los archivos de la raíz, menos lo listado en .assetsignore
+  "assets": {
+    "directory": ".",
+    "not_found_handling": "404-page"
+  }
+}

@@ -1,0 +1,13 @@
+# Archivos del repo que NO se publican en el sitio (sintaxis .gitignore)
+node_modules
+.git
+.claude
+.wrangler
+assets
+scripts
+package.json
+package-lock.json
+wrangler.jsonc
+README.md
+.gitignore
+.assetsignore
