@@ -59,5 +59,6 @@ El sitio se sirve tal cual desde la raíz del repo.
 - Dos obras sin datos (no están en Saatchi Art): `sin-titulo-jazz` y `sin-titulo-bodegon` en `js/obras.js`.
   Completar título, año, técnica y medidas.
 - La foto del artista es de 300 × 300 px; una de mayor resolución luciría mejor.
-- Email o formulario de contacto (hoy el contacto deriva a Saatchi Art).
+- El formulario de contacto es de muestra: valida y confirma, pero no envía nada. Para activarlo,
+  reemplazar la función `enviar` en `js/main.js` (`bindForm`) por un envío real (un Worker con email, Formspree, etc.).
 - Venta online.

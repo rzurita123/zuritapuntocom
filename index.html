@@ -65,8 +65,8 @@
     </a>
     <nav class="nav__links" aria-label="Secciones">
       <a href="#obras" data-goto="obras" data-label="La obra">Obra</a>
-      <a href="#pintura" data-goto="pintura" data-label="La pintura">Pintura</a>
       <a href="#artista" data-goto="artista" data-label="El artista">Artista</a>
+      <a href="#pintura" data-goto="pintura" data-label="La pintura">Pintura</a>
       <a href="#contacto" data-goto="contacto" data-label="Contacto">Contacto</a>
     </nav>
   </header>
@@ -76,7 +76,6 @@
     <!-- ============ PORTADA ============ -->
     <section class="hero" id="inicio" data-wall="dark">
       <div class="hero__text">
-        <p class="eyebrow hero__eyebrow"><span>Pintor</span><span>Chile, 1958</span><span>Montevideo</span></p>
         <h1 class="hero__title">
           <span class="line"><span>Marcelo</span></span>
           <span class="line"><em>Zurita</em></span>
@@ -97,7 +96,6 @@
     <!-- ============ GALERÍA ============ -->
     <section class="obras" id="obras" data-wall="dark">
       <header class="section-head">
-        <p class="eyebrow">I — Galería</p>
         <h2 class="section-title reveal-up">La <em>obra</em></h2>
         <p class="obras__count reveal-up"></p>
       </header>
@@ -108,40 +106,9 @@
       <noscript><p class="noscript">Activá JavaScript para ver la galería.</p></noscript>
     </section>
 
-    <!-- ============ LA PINTURA ============ -->
-    <section class="pintura" id="pintura" data-wall="umber">
-      <header class="section-head">
-        <p class="eyebrow">II — Sobre la obra</p>
-        <h2 class="section-title reveal-up">La <em>pintura</em></h2>
-      </header>
-      <p class="statement">
-        Zurita pinta con línea firme y planos de color. Sus bodegones —botellas, jarras, cafeteras y frutas sobre la mesa— se ordenan en una estructura constructiva heredada de la Escuela del Sur, donde el objeto es, antes que nada, un pretexto para la pintura. En sus puertos hay humo, grúas y gente de paso; en sus paisajes vuelve siempre el sur de Chile: los ríos, los bosques, los pueblos al atardecer.
-      </p>
-      <blockquote class="quote reveal-up">
-        <p>“Los silenciosos objetos son vestidos de líneas y colores, pasando a ser finalmente un pretexto al servicio de la pintura.”</p>
-        <cite>— M. Z.</cite>
-      </blockquote>
-
-      <div class="palette" aria-label="La paleta del pintor">
-        <div class="palette__head">
-          <p class="eyebrow">La paleta</p>
-          <p class="palette__note">Rojos de hierro, ocres, azules y cafés. La línea en negro, en diferente grosor.</p>
-        </div>
-        <div class="palette__bars">
-          <button class="swatch" style="--c:#b8873a" data-name="Ocre"><span>Ocre</span><small>#b8873a</small></button>
-          <button class="swatch" style="--c:#8a837b" data-name="Gris"><span>Gris</span><small>#8a837b</small></button>
-          <button class="swatch" style="--c:#8f3a26" data-name="Rojo de hierro"><span>Rojo de hierro</span><small>#8f3a26</small></button>
-          <button class="swatch" style="--c:#3a557c" data-name="Azul"><span>Azul</span><small>#3a557c</small></button>
-          <button class="swatch" style="--c:#5b3b27" data-name="Café"><span>Café</span><small>#5b3b27</small></button>
-          <button class="swatch" style="--c:#16110d" data-name="Negro"><span>Negro</span><small>#16110d</small></button>
-        </div>
-      </div>
-    </section>
-
     <!-- ============ EL ARTISTA ============ -->
     <section class="artista" id="artista" data-wall="linen">
       <header class="section-head">
-        <p class="eyebrow">III — Biografía</p>
         <h2 class="section-title reveal-up">El <em>artista</em></h2>
       </header>
 
@@ -179,13 +146,86 @@
       </ol>
     </section>
 
+    <!-- ============ LA PINTURA ============ -->
+    <section class="pintura" id="pintura" data-wall="umber">
+      <header class="section-head">
+        <h2 class="section-title reveal-up">La <em>pintura</em></h2>
+      </header>
+      <p class="statement">
+        Zurita pinta con línea firme y planos de color. Sus bodegones —botellas, jarras, cafeteras y frutas sobre la mesa— se ordenan en una estructura constructiva heredada de la Escuela del Sur, donde el objeto es, antes que nada, un pretexto para la pintura. En sus puertos hay humo, grúas y gente de paso; en sus paisajes vuelve siempre el sur de Chile: los ríos, los bosques, los pueblos al atardecer.
+      </p>
+      <figure class="quote reveal-up" aria-label="Citas del artista">
+        <div class="quote__stack">
+          <blockquote class="quote__item is-active">
+            <p>“…los silenciosos objetos -generalmente de la cocina cotidiana- son vestidos de líneas y colores, pasando a ser un pretexto finalmente, al servicio de la pintura.”</p>
+            <footer>Zurita, sobre <cite>El gran molinillo</cite></footer>
+          </blockquote>
+        </div>
+        <div class="quote__controls" hidden>
+          <span class="quote__count"></span>
+          <button class="quote__next" type="button" aria-label="Siguiente cita"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 4 8 8-8 8"/></svg></button>
+          <span class="quote__bar" aria-hidden="true"><i></i></span>
+        </div>
+      </figure>
+
+      <div class="palette" aria-label="La paleta del pintor">
+        <div class="palette__head">
+          <p class="eyebrow">La paleta</p>
+          <p class="palette__note">Rojos de hierro, ocres, azules y cafés. La línea en negro, en diferente grosor.</p>
+        </div>
+        <div class="palette__bars">
+          <button class="swatch" type="button" style="--c:#b8873a" data-name="Ocre"><span>Ocre</span></button>
+          <button class="swatch" type="button" style="--c:#8a837b" data-name="Gris"><span>Gris</span></button>
+          <button class="swatch" type="button" style="--c:#8f3a26" data-name="Rojo de hierro"><span>Rojo de hierro</span></button>
+          <button class="swatch" type="button" style="--c:#3a557c" data-name="Azul"><span>Azul</span></button>
+          <button class="swatch" type="button" style="--c:#5b3b27" data-name="Café"><span>Café</span></button>
+          <button class="swatch" type="button" style="--c:#16110d" data-name="Negro"><span>Negro</span></button>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ CONTACTO ============ -->
     <section class="contacto" id="contacto" data-wall="dark">
-      <p class="eyebrow">IV — Contacto</p>
-      <h2 class="contacto__title reveal-up">¿Te interesa<br>una <em>obra</em>?</h2>
-      <p class="contacto__text reveal-up">Muy pronto vas a poder adquirir obra original directamente en este sitio. Mientras tanto, parte de la obra está disponible en Saatchi Art.</p>
-      <div class="hero__cta reveal-up">
-        <a class="btn btn--solid" href="https://www.saatchiart.com/marcelozurita" target="_blank" rel="noopener"><span>Ver en Saatchi Art ↗</span></a>
+      <div class="contacto__intro">
+        <h2 class="section-title reveal-up">Con<em>tacto</em></h2>
+        <p class="contacto__text reveal-up">Para consultas sobre la obra, exposiciones o cualquier otro tema, escribile a Marcelo desde este formulario.</p>
+        <a class="saatchi-card reveal-up" href="https://www.saatchiart.com/marcelozurita" target="_blank" rel="noopener">
+          <span class="saatchi-card__label">También en</span>
+          <span class="saatchi-card__name">Saatchi Art <span aria-hidden="true">↗</span></span>
+          <span class="saatchi-card__text">Parte de su obra está publicada en su perfil de Saatchi Art, la galería online internacional.</span>
+        </a>
+      </div>
+
+      <div class="contacto__panel reveal-up">
+        <form class="form" novalidate>
+          <div class="field">
+            <input id="f-nombre" name="nombre" type="text" autocomplete="name" required placeholder=" ">
+            <label for="f-nombre">Nombre</label>
+            <span class="field__error">Contanos tu nombre.</span>
+          </div>
+          <div class="field">
+            <input id="f-email" name="email" type="email" autocomplete="email" required placeholder=" ">
+            <label for="f-email">Email</label>
+            <span class="field__error">Necesitamos un email válido para responderte.</span>
+          </div>
+          <div class="field">
+            <input id="f-asunto" name="asunto" type="text" placeholder=" ">
+            <label for="f-asunto">Asunto <small>(opcional)</small></label>
+          </div>
+          <div class="field">
+            <textarea id="f-mensaje" name="mensaje" rows="5" required placeholder=" "></textarea>
+            <label for="f-mensaje">Mensaje</label>
+            <span class="field__error">Escribí tu mensaje.</span>
+          </div>
+          <button class="btn btn--solid form__submit" type="submit"><span>Enviar mensaje</span></button>
+        </form>
+
+        <div class="sent" hidden tabindex="-1">
+          <span class="sent__mark" aria-hidden="true"><svg><use href="#s-sol"/></svg></span>
+          <h3 class="sent__title">Mensaje enviado</h3>
+          <p class="sent__text">Gracias<span class="sent__name"></span>. Marcelo te va a responder a la brevedad.</p>
+          <button class="btn sent__again" type="button"><span>Enviar otro mensaje</span></button>
+        </div>
       </div>
     </section>
   </main>

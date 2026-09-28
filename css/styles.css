@@ -88,10 +88,10 @@ body::after {
   text-transform: uppercase;
   color: var(--muted);
 }
-.section-head { padding: 0 var(--gutter); margin-bottom: clamp(32px, 5vw, 64px); }
+.section-head { padding: 0 var(--gutter); margin-bottom: clamp(22px, 3vw, 40px); }
 .section-title {
-  margin: .15em 0 0;
-  font: 400 clamp(56px, 11vw, 168px)/.9 var(--serif);
+  margin: 0;
+  font: 400 clamp(52px, 9vw, 136px)/.9 var(--serif);
   letter-spacing: -.02em;
 }
 .section-title em { color: var(--accent); transition: color 1.1s var(--ease); }
@@ -285,10 +285,8 @@ body::after {
   padding: calc(var(--nav-h) + 24px) var(--gutter) 48px;
 }
 .hero__text { position: relative; z-index: 2; }
-.hero__eyebrow { display: flex; flex-wrap: wrap; gap: 8px 18px; }
-.hero__eyebrow span + span::before { content: '—'; margin-right: 18px; color: var(--ocre); }
 .hero__title {
-  margin: 22px 0 26px;
+  margin: 0 0 26px;
   font: 400 clamp(72px, 10.5vw, 188px)/.86 var(--serif);
   letter-spacing: -.03em;
 }
@@ -394,11 +392,11 @@ body::after {
 
 /* estado inicial de la portada (lo anima main.js) */
 .js .hero__title .line > * { transform: translateY(110%); }
-.js .hero__eyebrow, .js .hero__lead, .js .hero__cta, .js .hero__scroll { opacity: 0; }
+.js .hero__lead, .js .hero__cta, .js .hero__scroll { opacity: 0; }
 .js .hero__cell { clip-path: inset(0 0 100% 0); }
 .hero.is-in .hero__title .line > * { transform: none; transition: transform 1.3s var(--ease-out); }
 .hero.is-in .hero__title .line:nth-child(2) > * { transition-delay: .12s; }
-.hero.is-in .hero__eyebrow, .hero.is-in .hero__lead, .hero.is-in .hero__cta, .hero.is-in .hero__scroll {
+.hero.is-in .hero__lead, .hero.is-in .hero__cta, .hero.is-in .hero__scroll {
   opacity: 1;
   transition: opacity 1.2s var(--ease-out) .5s;
 }
@@ -414,7 +412,7 @@ body::after {
   overflow: hidden;
   border-block: 1.5px solid var(--line);
   padding: 22px 0;
-  margin: clamp(24px, 5vw, 64px) 0 clamp(80px, 12vw, 160px);
+  margin: clamp(20px, 3vw, 40px) 0 clamp(44px, 6vw, 80px);
   user-select: none;
 }
 .marquee__track { display: flex; width: max-content; will-change: transform; }
@@ -434,9 +432,8 @@ body::after {
 /* ==========================================================================
    GALERÍA
    ========================================================================== */
-.obras { padding-bottom: clamp(80px, 12vw, 180px); }
+.obras { padding-bottom: clamp(56px, 7vw, 96px); }
 .obras .section-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 8px 24px; }
-.obras .section-head .eyebrow { flex-basis: 100%; }
 .obras__count { margin: 0 0 1.2em; color: var(--muted); font: italic 400 24px/1.2 var(--serif); }
 
 .filters {
@@ -499,18 +496,19 @@ body::after {
   transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
   transition: transform .6s var(--ease-out), box-shadow .6s;
 }
-.js .tile__frame { clip-path: inset(100% 0 0 0); }
-.tile.is-seen .tile__frame { clip-path: inset(0 0 0 0); transition: clip-path 1.2s var(--ease) var(--rd, 0s), transform .6s var(--ease-out); }
+/* Cada fila aparece junta, cuando sus imágenes ya cargaron (ver revealRow en main.js) */
+.js .tile__frame { opacity: 0; translate: 0 24px; }
+.tile.is-seen .tile__frame {
+  opacity: 1;
+  translate: 0 0;
+  transition: opacity .9s var(--ease-out) var(--rd, 0s), translate 1s var(--ease-out) var(--rd, 0s), transform .6s var(--ease-out), box-shadow .6s;
+}
 .tile__frame img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(1.25);
-  transition: transform 1.6s var(--ease-out), opacity .5s;
-  opacity: 0;
+  transition: transform 1.2s var(--ease-out);
 }
-.tile__frame img.is-loaded { opacity: 1; }
-.tile.is-seen .tile__frame img { transform: scale(1); }
 .tile:hover .tile__frame img { transform: scale(1.05); }
 .tile__cap {
   position: absolute;
@@ -536,29 +534,84 @@ body::after {
 /* ==========================================================================
    LA PINTURA
    ========================================================================== */
-.pintura { padding: clamp(100px, 14vw, 200px) 0 clamp(100px, 14vw, 200px); }
+.pintura { padding: clamp(56px, 7vw, 100px) 0; }
 .statement {
   max-width: 21em;
   margin: 0 var(--gutter);
-  font: 400 clamp(30px, 4.4vw, 68px)/1.12 var(--serif);
+  font: 400 clamp(28px, 3.8vw, 56px)/1.14 var(--serif);
   letter-spacing: -.01em;
 }
-.statement .w { opacity: .14; transition: opacity .35s linear, color .35s; }
+.statement .w { opacity: .14; transition: opacity .6s var(--ease-out) calc(var(--k, 0) * 22ms), color .6s var(--ease-out) calc(var(--k, 0) * 22ms); }
 .statement .w.is-on { opacity: 1; }
 .statement .w.hl { font-style: italic; }
 .statement .w.hl.is-on { color: var(--ocre); }
 .no-js .statement .w { opacity: 1; }
 
-.quote {
-  max-width: 34em;
-  margin: clamp(60px, 9vw, 120px) var(--gutter) 0 auto;
-  padding: 0 var(--gutter) 0 28px;
-  border-left: 3px solid var(--rojo);
-}
-.quote p { margin: 0; font: italic 400 clamp(22px, 2.4vw, 32px)/1.3 var(--serif); }
-.quote cite { display: block; margin-top: 14px; font: 500 12px/1 var(--sans); letter-spacing: .2em; font-style: normal; color: var(--muted); }
+@property --line { syntax: '<number>'; inherits: false; initial-value: 1; }
 
-.palette { margin: clamp(80px, 12vw, 160px) var(--gutter) 0; }
+/* Citas del artista: todas apiladas en la misma celda, así el bloque toma
+   la altura de la más larga y no mueve el resto de la página al rotar. */
+.quote {
+  position: relative;
+  max-width: min(34em, calc(100% - 2 * var(--gutter)));
+  margin: clamp(36px, 5vw, 64px) var(--gutter) 0 auto;
+  padding: 0 0 0 28px;
+}
+.quote::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--rojo);
+  transform-origin: 50% 0;
+  transform: scaleY(var(--line, 1));
+}
+.quote__stack { display: grid; }
+.quote__item { grid-area: 1 / 1; align-self: center; margin: 0; visibility: hidden; }
+.quote__item.is-active { visibility: visible; }
+.quote__item p { margin: 0; font: italic 400 clamp(22px, 2.4vw, 32px)/1.3 var(--serif); }
+.quote__item footer {
+  margin-top: 16px;
+  font: 500 12px/1.4 var(--sans);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.quote__item cite {
+  font: italic 400 18px/1.2 var(--serif);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--fg);
+}
+.quote__item cite button {
+  font: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-underline-offset: 4px;
+  transition: color .3s, text-decoration-color .3s;
+}
+.quote__item cite button:hover { color: var(--ocre); text-decoration-color: currentColor; }
+
+.quote__controls { display: flex; align-items: center; gap: 14px; margin-top: 26px; }
+.quote__controls[hidden] { display: none; }
+.quote__count { font: 500 12px/1 var(--sans); letter-spacing: .2em; color: var(--muted); min-width: 4.5em; }
+.quote__next {
+  width: 40px; height: 40px;
+  display: grid;
+  place-items: center;
+  border: 1.5px solid color-mix(in oklab, var(--fg) 35%, transparent);
+  border-radius: 50%;
+  transition: background-color .3s, border-color .3s, color .3s;
+}
+.quote__next svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+.quote__next:hover { background: var(--cream); border-color: var(--cream); color: var(--negro); }
+.quote__bar { position: relative; flex: 0 1 160px; height: 2px; background: color-mix(in oklab, var(--fg) 22%, transparent); overflow: hidden; }
+.quote__bar i { position: absolute; inset: 0; background: var(--ocre); transform-origin: 0 50%; transform: scaleX(0); }
+.quote.is-playing .quote__bar i { animation: quotebar var(--dur, 9s) linear forwards; }
+.quote.is-paused .quote__bar i { animation-play-state: paused; }
+@keyframes quotebar { to { transform: scaleX(1); } }
+
+.palette { margin: clamp(44px, 6vw, 80px) var(--gutter) 0; }
 .palette__head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 40px; margin-bottom: 22px; }
 .palette__note { margin: 0; max-width: 28em; color: var(--muted); font: italic 400 20px/1.3 var(--serif); }
 .palette__bars {
@@ -585,17 +638,15 @@ body::after {
 .js .swatch { clip-path: inset(100% 0 0 0); }
 .palette.is-in .swatch { clip-path: inset(0); transition: clip-path 1.1s var(--ease) calc(var(--i) * .08s), flex-grow .8s var(--ease); }
 .swatch span { font: italic 400 clamp(18px, 2vw, 28px)/1.1 var(--serif); white-space: nowrap; transform: translateY(8px); opacity: .0; transition: opacity .5s, transform .6s var(--ease-out); }
-.swatch small { font: 500 11px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; opacity: 0; margin-top: 6px; transition: opacity .5s; }
 .swatch:hover, .swatch:focus-visible, .swatch.is-open { flex-grow: 3.2; }
 .swatch:hover span, .swatch:focus-visible span, .swatch.is-open span { opacity: 1; transform: none; }
-.swatch:hover small, .swatch:focus-visible small, .swatch.is-open small { opacity: .75; }
 .swatch[data-name='Gris'], .swatch[data-name='Ocre'] { color: var(--negro); }
 .swatch[data-name='Negro'] { box-shadow: inset 0 0 0 1px rgba(239, 230, 214, .12); }
 
 /* ==========================================================================
    EL ARTISTA
    ========================================================================== */
-.artista { padding: clamp(100px, 14vw, 200px) 0 clamp(80px, 10vw, 140px); }
+.artista { padding: clamp(56px, 7vw, 100px) 0 clamp(48px, 6vw, 88px); }
 .artista__body {
   display: grid;
   grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
@@ -662,7 +713,7 @@ body::after {
   display: grid;
   grid-template-columns: repeat(var(--n), 1fr);
   gap: 28px;
-  margin: clamp(80px, 10vw, 140px) var(--gutter) 0;
+  margin: clamp(44px, 6vw, 76px) var(--gutter) 0;
   padding: 44px 0 0;
   list-style: none;
 }
@@ -697,13 +748,114 @@ body::after {
 /* ==========================================================================
    CONTACTO + PIE
    ========================================================================== */
-.contacto { padding: clamp(120px, 16vw, 220px) var(--gutter) clamp(60px, 8vw, 120px); }
-.contacto__title { margin: .2em 0 .3em; font: 400 clamp(56px, 9vw, 150px)/.92 var(--serif); letter-spacing: -.02em; }
-.contacto__title em { color: var(--ocre); }
-.contacto__text { max-width: 32em; margin: 0 0 36px; color: var(--muted); font-size: clamp(17px, 1.4vw, 20px); }
+.contacto {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: clamp(36px, 6vw, 96px);
+  align-items: start;
+  padding: clamp(56px, 7vw, 100px) var(--gutter) clamp(40px, 5vw, 72px);
+}
+.contacto__text { max-width: 30em; margin: 18px 0 32px; color: var(--muted); font-size: clamp(17px, 1.35vw, 19px); }
+
+.saatchi-card {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  max-width: 27em;
+  padding: 22px 24px;
+  border: 1.5px solid var(--line);
+  text-decoration: none;
+  overflow: hidden;
+  isolation: isolate;
+  transition: border-color .4s, color .4s;
+}
+.saatchi-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--ocre);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform .6s var(--ease);
+}
+.saatchi-card:hover { border-color: var(--ocre); color: var(--negro); }
+.saatchi-card:hover::before { transform: none; }
+.saatchi-card__label { font: 500 11px/1 var(--sans); letter-spacing: .2em; text-transform: uppercase; color: var(--muted); transition: color .4s; }
+.saatchi-card__name { font: italic 400 32px/1.1 var(--serif); }
+.saatchi-card__text { font-size: 14.5px; line-height: 1.55; color: var(--muted); transition: color .4s; }
+.saatchi-card:hover .saatchi-card__label, .saatchi-card:hover .saatchi-card__text { color: rgba(12, 10, 8, .72); }
+
+.contacto__panel { position: relative; padding-top: 8px; }
+.form { display: grid; gap: 30px; }
+.form[hidden] { display: none; }
+.field { position: relative; }
+.field input, .field textarea {
+  display: block;
+  width: 100%;
+  padding: 24px 0 10px;
+  border: 0;
+  border-bottom: 1.5px solid color-mix(in oklab, var(--fg) 28%, transparent);
+  border-radius: 0;
+  background: transparent;
+  color: var(--fg);
+  font: 400 18px/1.4 var(--sans);
+  outline: none;
+  transition: border-color .3s;
+}
+.field textarea { min-height: 150px; resize: vertical; }
+.field input:-webkit-autofill { -webkit-text-fill-color: var(--fg); transition: background-color 99999s; }
+.field label {
+  position: absolute;
+  left: 0; top: 26px;
+  font: 500 13px/1 var(--sans);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  pointer-events: none;
+  transform-origin: 0 0;
+  transition: transform .35s var(--ease-out), color .3s;
+}
+.field label small { font-size: 11px; letter-spacing: .06em; text-transform: none; opacity: .75; }
+.field :is(input, textarea):is(:focus, :not(:placeholder-shown)) + label { transform: translateY(-24px) scale(.85); }
+.field :is(input, textarea):focus + label { color: var(--ocre); }
+.field::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 2px;
+  background: var(--ocre);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform .5s var(--ease);
+  pointer-events: none;
+}
+.field:has(textarea)::after { bottom: 6px; }
+.field:focus-within::after { transform: none; }
+.field__error {
+  position: absolute;
+  left: 0; top: calc(100% + 6px);
+  font-size: 12.5px;
+  color: #e3876a;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity .3s, transform .3s;
+}
+.field.is-invalid .field__error { opacity: 1; transform: none; }
+.field.is-invalid :is(input, textarea) { border-bottom-color: #e3876a; }
+.form__submit { justify-self: start; margin-top: 8px; }
+.form__submit.is-sending { pointer-events: none; opacity: .75; }
+
+.sent { display: grid; justify-items: start; gap: 14px; outline: none; }
+.sent[hidden] { display: none; }
+.sent__mark { width: 64px; height: 64px; display: grid; place-items: center; background: var(--ocre); color: var(--negro); }
+.sent__mark svg { width: 34px; height: 34px; }
+.sent__mark use { stroke-width: 1.8; }
+.sent__title { margin: 10px 0 0; font: italic 400 clamp(38px, 4vw, 58px)/1 var(--serif); }
+.sent__text { margin: 0 0 12px; max-width: 28em; color: var(--muted); font-size: 17px; }
 
 .footer { padding: 0 var(--gutter) 28px; }
-.footer__firma { width: 100%; overflow: visible; color: var(--fg); margin: clamp(40px, 6vw, 80px) 0 28px; }
+.footer__firma { width: 100%; overflow: visible; color: var(--fg); margin: clamp(24px, 4vw, 56px) 0 28px; }
 .footer__firma path {
   fill: none; stroke: currentColor; stroke-width: 9; stroke-linecap: square; stroke-linejoin: bevel;
   stroke-dasharray: 1; stroke-dashoffset: var(--draw, 1);
@@ -853,6 +1005,7 @@ html.is-locked, html.is-locked body { overflow: hidden; }
   .hero__title { margin: 14px 0 18px; }
   .hero__scroll { display: none; }
   .artista__body { grid-template-columns: 1fr; }
+  .contacto { grid-template-columns: 1fr; }
   .retrato { position: relative; top: 0; max-width: 460px; }
   .timeline { grid-template-columns: 1fr; gap: 26px; padding: 0 0 0 58px; }
   .timeline::before { left: 17px; right: auto; top: 0; bottom: 0; width: 3px; height: auto; transform: scaleY(var(--p, 0)); transform-origin: 50% 0; }
@@ -869,8 +1022,6 @@ html.is-locked, html.is-locked body { overflow: hidden; }
 }
 @media (max-width: 560px) {
   :root { --nav-h: 60px; }
-  .hero__eyebrow { gap: 6px 10px; letter-spacing: .14em; font-size: 11px; }
-  .hero__eyebrow span + span::before { margin-right: 10px; }
   .nav__logo { width: 76px; }
   .nav__links { gap: 12px; }
   .nav__links a { font-size: 11px; letter-spacing: .08em; }
@@ -889,9 +1040,8 @@ html.is-locked, html.is-locked body { overflow: hidden; }
   .btn { padding: 15px 20px; }
   .filter { padding: 10px 13px; font-size: 11px; }
   .palette__bars { flex-direction: column; height: auto; }
-  .swatch { min-height: 54px; flex-direction: row; justify-content: space-between; align-items: center; }
+  .swatch { min-height: 54px; flex-direction: row; justify-content: flex-start; align-items: center; }
   .swatch span { opacity: 1; transform: none; font-size: 20px; }
-  .swatch small { opacity: .7; margin: 0; }
   .js .swatch { clip-path: inset(0 100% 0 0); }
 }
 

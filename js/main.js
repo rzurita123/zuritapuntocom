@@ -252,10 +252,6 @@ function buildGallery() {
     .join('');
 
   tiles = $$('.tile', gallery).map((el) => ({ el, obra: porSlug.get(el.dataset.slug), visible: true, img: $('img', el), frame: $('.tile__frame', el) }));
-  tiles.forEach((t) => {
-    const done = () => t.img.classList.add('is-loaded');
-    t.img.addEventListener('load', done, { once: true });
-  });
 
   gallery.addEventListener('click', (e) => {
     const t = e.target.closest('.tile');
@@ -281,25 +277,43 @@ function buildGallery() {
     });
   }
 
+  const imgReady = (img) =>
+    img.complete && img.naturalWidth
+      ? Promise.resolve()
+      : new Promise((ok) => { img.addEventListener('load', ok, { once: true }); img.addEventListener('error', ok, { once: true }); });
+
+  // Cuando una obra entra en pantalla se revela toda su fila junta, de izquierda a
+  // derecha, y recién cuando sus imágenes cargaron (con un tope para no trabar).
+  const revealRow = (t) => {
+    const y = t.pos?.y;
+    const row = tiles
+      .filter((x) => x.visible && x.pos && !x.queued && Math.abs(x.pos.y - y) < 1)
+      .sort((a, b) => a.pos.x - b.pos.x);
+    row.forEach((x) => { x.queued = true; io.unobserve(x.el); });
+    Promise.race([Promise.all(row.map((x) => imgReady(x.img))), wait(900)]).then(() =>
+      row.forEach((x, k) => {
+        x.el.style.setProperty('--rd', `${(k * 0.08).toFixed(2)}s`);
+        x.el.classList.add('is-seen');
+      }),
+    );
+  };
   const io = new IntersectionObserver(
     (entries) => entries.forEach((en) => {
       if (!en.isIntersecting) return;
-      const t = en.target;
-      const x = parseFloat(t.style.getPropertyValue('--x')) || 0;
-      t.style.setProperty('--rd', `${((x / gallery.clientWidth) * 0.3).toFixed(2)}s`);
-      t.classList.add('is-seen');
-      io.unobserve(t);
+      const t = tiles.find((x) => x.el === en.target);
+      if (t && !t.queued) revealRow(t);
     }),
-    { rootMargin: '0px 0px -8% 0px' },
+    { rootMargin: '0px 0px -10% 0px' },
   );
   tiles.forEach((t) => io.observe(t.el));
 
-  layout(false);
+  // Sin cargar imágenes todavía: el layout definitivo (tras las fuentes) asigna los srcset
+  layout(false, false);
   requestAnimationFrame(() => requestAnimationFrame(() => gallery.classList.add('is-ready')));
   moveInk();
 }
 
-function layout(stagger) {
+function layout(stagger, cargar = true) {
   const W = gallery.clientWidth;
   if (!W) return;
   const gap = W < 560 ? 8 : 14;
@@ -330,7 +344,7 @@ function layout(stagger) {
     s.setProperty('--h', `${t.pos.h.toFixed(1)}px`);
     s.setProperty('--d', stagger ? `${Math.min(i * 0.022, 0.45).toFixed(3)}s` : '0s');
     t.img.sizes = `${Math.ceil(t.pos.w)}px`;
-    if (!t.img.srcset) { t.img.srcset = srcset(t.obra.slug); t.img.src = src(t.obra.slug, 960); }
+    if (cargar && !t.img.srcset) { t.img.srcset = srcset(t.obra.slug); t.img.src = src(t.obra.slug, 960); }
     t.el.classList.remove('is-out');
     t.el.tabIndex = 0;
   });
@@ -627,6 +641,7 @@ const statement = $('.statement');
 const timeline = $('.timeline');
 const footerFirma = $('.footer__firma');
 let words = [];
+let wordTops = [];
 let lastY = scrollY;
 
 function prepStatement() {
@@ -640,6 +655,102 @@ function prepStatement() {
     })
     .join(' ');
   words = $$('.w', statement);
+  measureStatement();
+}
+
+/** Posición de cada palabra dentro del texto y su orden dentro de la línea (para el barrido). */
+function measureStatement() {
+  const top = statement.getBoundingClientRect().top;
+  let lineTop = null, k = 0;
+  wordTops = words.map((w) => {
+    const t = w.getBoundingClientRect().top - top;
+    if (lineTop === null || Math.abs(t - lineTop) > 4) { lineTop = t; k = 0; }
+    w.style.setProperty('--k', k++);
+    return t;
+  });
+}
+
+/* Citas del artista, en rotación. Los textos vienen de `cita` en obras.js (textuales). */
+function buildQuotes() {
+  const box = $('.quote');
+  const con = catalogo.filter((o) => o.cita);
+  if (!box || con.length < 2) return;
+
+  const stack = $('.quote__stack', box);
+  const count = $('.quote__count', box);
+  const bar = $('.quote__bar i', box);
+  const fmt = (c) => (/^[a-záéíóúñ]/.test(c) ? '…' + c : c);
+  stack.innerHTML = con
+    .map(
+      (o) =>
+        `<blockquote class="quote__item"><p>“${esc(fmt(o.cita))}”</p>` +
+        `<footer>Zurita, sobre <cite><button type="button" data-slug="${o.slug}">${esc(o.titulo)}</button></cite></footer></blockquote>`,
+    )
+    .join('');
+  const items = $$('.quote__item', stack);
+  $('.quote__controls', box).hidden = false;
+
+  let i = Math.max(0, con.findIndex((o) => o.slug === 'el-gran-molinillo'));
+  let busy = false;
+  const flags = { hover: false, focus: false, offscreen: true };
+
+  const show = (n) => {
+    items.forEach((el, k) => {
+      el.classList.toggle('is-active', k === n);
+      el.setAttribute('aria-hidden', String(k !== n));
+    });
+    count.textContent = `${String(n + 1).padStart(2, '0')} / ${String(items.length).padStart(2, '0')}`;
+  };
+  const restartBar = () => {
+    if (reduced) return;
+    box.classList.remove('is-playing');
+    void bar.offsetWidth;
+    box.classList.add('is-playing');
+  };
+  const syncPause = () => box.classList.toggle('is-paused', flags.hover || flags.focus || flags.offscreen);
+
+  async function go(dir, manual) {
+    if (busy) return;
+    busy = true;
+    const prev = items[i];
+    i = (i + dir + items.length) % items.length;
+    const next = items[i];
+    stack.setAttribute('aria-live', manual ? 'polite' : 'off');
+    if (!reduced) {
+      await prev.animate(
+        [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(-18px)' }],
+        { duration: 420, easing: EASE, fill: 'forwards' },
+      ).finished;
+    }
+    show(i);
+    prev.getAnimations().forEach((a) => a.cancel());
+    if (!reduced) {
+      box.animate([{ '--line': 0 }, { '--line': 1 }], { duration: 900, easing: EASE });
+      $('p', next).animate(
+        [{ opacity: 0, transform: 'translateY(26px)', clipPath: 'inset(0 0 100% 0)' }, { opacity: 1, transform: 'none', clipPath: 'inset(0 0 0 0)' }],
+        { duration: 950, easing: EASE_OUT },
+      );
+      $('footer', next).animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 700, delay: 220, easing: EASE_OUT, fill: 'backwards' });
+    }
+    restartBar();
+    busy = false;
+  }
+
+  show(i);
+  restartBar();
+  syncPause();
+  bar.addEventListener('animationend', () => go(1, false));
+  $('.quote__next', box).addEventListener('click', () => go(1, true));
+  stack.addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-slug]');
+    if (b) openViewer(b.dataset.slug);
+  });
+  box.addEventListener('pointerenter', () => { flags.hover = true; syncPause(); });
+  box.addEventListener('pointerleave', () => { flags.hover = false; syncPause(); });
+  // Solo el foco de teclado pausa; un clic en "siguiente" no debe frenar la rotación
+  box.addEventListener('focusin', (e) => { flags.focus = e.target.matches(':focus-visible'); syncPause(); });
+  box.addEventListener('focusout', (e) => { if (!box.contains(e.relatedTarget)) { flags.focus = false; syncPause(); } });
+  new IntersectionObserver(([en]) => { flags.offscreen = !en.isIntersecting; syncPause(); }).observe(box);
 }
 
 function progressOf(el, start, end) {
@@ -665,9 +776,9 @@ function onScroll() {
   marquee.v = clamp(marquee.v + Math.abs(dy) * 0.08, 0, 24) * Math.sign(dy || 1);
 
   if (words.length) {
-    const p = progressOf(statement, 0.85, 0.35);
-    const on = Math.round(p * words.length);
-    words.forEach((w, i) => w.classList.toggle('is-on', i < on));
+    const top = statement.getBoundingClientRect().top;
+    const umbral = innerHeight * 0.88;
+    words.forEach((w, i) => w.classList.toggle('is-on', top + wordTops[i] < umbral));
   }
 
   const tp = progressOf(timeline, 0.85, 0.7);
@@ -759,6 +870,75 @@ function bindPalette() {
   );
 }
 
+/* Formulario de contacto.
+   Por ahora es de muestra: valida, simula el envío y confirma, pero no manda nada.
+   Para que envíe de verdad, reemplazar la espera en `enviar` por un fetch a un
+   servicio de email (un Worker propio, Formspree, etc.). */
+function bindForm() {
+  const form = $('.form');
+  const sent = $('.sent');
+  const panel = $('.contacto__panel');
+  if (!form) return;
+  const fields = $$('.field', form);
+  const control = (f) => $('input, textarea', f);
+
+  const validate = (f) => {
+    const el = control(f);
+    const ok = el.checkValidity() && (!el.required || el.value.trim() !== '');
+    f.classList.toggle('is-invalid', !ok);
+    el.setAttribute('aria-invalid', String(!ok));
+    return ok;
+  };
+  fields.forEach((f) => {
+    const el = control(f);
+    const err = $('.field__error', f);
+    if (err) { err.id = `${el.id}-error`; el.setAttribute('aria-describedby', err.id); }
+    el.addEventListener('blur', () => { if (el.value) validate(f); });
+    el.addEventListener('input', () => { if (f.classList.contains('is-invalid')) validate(f); });
+  });
+
+  const swap = async (from, to) => {
+    panel.style.minHeight = `${panel.offsetHeight}px`;
+    if (!reduced) {
+      await from.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(-16px)' }], { duration: 350, easing: EASE, fill: 'forwards' }).finished;
+    }
+    from.hidden = true;
+    from.getAnimations().forEach((a) => a.cancel());
+    to.hidden = false;
+    if (!reduced) {
+      to.animate(
+        [{ opacity: 0, transform: 'translateY(24px)', clipPath: 'inset(0 0 100% 0)' }, { opacity: 1, transform: 'none', clipPath: 'inset(0 0 0 0)' }],
+        { duration: 800, easing: EASE_OUT },
+      );
+    }
+    panel.style.minHeight = '';
+  };
+
+  const enviar = async () => wait(900);
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const invalidos = fields.filter((f) => !validate(f));
+    if (invalidos.length) { control(invalidos[0]).focus(); return; }
+    const btn = $('.form__submit', form);
+    btn.classList.add('is-sending');
+    $('span', btn).textContent = 'Enviando…';
+    await enviar(new FormData(form));
+    const nombre = form.elements.nombre.value.trim().split(/\s+/)[0];
+    $('.sent__name', sent).textContent = nombre ? `, ${nombre}` : '';
+    await swap(form, sent);
+    form.reset();
+    btn.classList.remove('is-sending');
+    $('span', btn).textContent = 'Enviar mensaje';
+    sent.focus({ preventScroll: true });
+  });
+
+  $('.sent__again', sent).addEventListener('click', async () => {
+    await swap(sent, form);
+    control(fields[0]).focus({ preventScroll: true });
+  });
+}
+
 /* ==========================================================================
    Arranque
    ========================================================================== */
@@ -768,11 +948,13 @@ buildHero();
 buildMarquee();
 buildGallery();
 prepStatement();
+buildQuotes();
 observeSections();
 bindViewer();
 bindCursor();
 bindRipples();
 bindPalette();
+bindForm();
 $('.footer__year').textContent = new Date().getFullYear();
 
 let raf = 0;
@@ -783,6 +965,7 @@ addEventListener('resize', () => {
   rt = setTimeout(() => {
     layout(false);
     moveInk();
+    measureStatement();
     marquee.half = marquee.track.scrollWidth / 2;
     if (viewer.open) fitViewer(viewer.list[viewer.idx]);
     onScroll();
@@ -794,6 +977,8 @@ onScroll();
   await Promise.race([document.fonts?.ready, wait(1500)]);
   layout(false);
   moveInk();
+  measureStatement();
+  onScroll();
   marquee.half = marquee.track.scrollWidth / 2;
   await intro();
   hero.classList.add('is-in');

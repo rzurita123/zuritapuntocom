@@ -16,6 +16,7 @@
 //   descripcion texto del artista (puede quedar vacío)
 //   fuente      { archivo, recorte? } — recorte = { left, top, width, height } en px del original
 //   saatchi     ruta de la obra en saatchiart.com/art/… (opcional)
+//   cita        fragmento TEXTUAL de un texto del artista (opcional); rota en la sección «La pintura»
 //   destacada   si aparece en el collage de portada
 
 export const series = {
@@ -53,6 +54,7 @@ export const obras = [
       'Es una escena con un toque de misterio. Mientras un personaje lee el diario y la dueña del bar permanece atenta en primer plano, una joven moza se dispone a continuar sirviendo a los clientes, pero algo la detiene. Tal vez un recuerdo, una voz, un antiguo aroma de melancolía.',
     fuente: { archivo: S + 'la-nina-en-el-cafe.jpg' },
     saatchi: 'Painting-La-nina-en-el-cafe/764219/13818311',
+    cita: 'Tal vez un recuerdo, una voz, un antiguo aroma de melancolía.',
     destacada: true,
   },
   {
@@ -162,6 +164,7 @@ export const obras = [
       'Observando el paisaje de campo, el artista captura un instante a las orillas del arroyo “Pintado”, que serpentea por Pueblo Edén. Al fondo, el caserío, los árboles y la parroquia del pueblo. En primer plano dos gauchos comparten un mate amargo, al tiempo que analizan con ritmo pausado lo vertiginoso del mundo actual. Mientras tanto, al caballo poco parece interesarle el diálogo aquél, y continúa pastando.',
     fuente: { archivo: S + 'mateando-en-pueblo-eden.jpg' },
     saatchi: 'Painting-Mateando-en-pueblo-Eden/764219/13986201',
+    cita: 'En primer plano dos gauchos comparten un mate amargo, al tiempo que analizan con ritmo pausado, lo vertiginoso del mundo actual.',
   },
   {
     slug: 'el-gran-molinillo',
@@ -174,6 +177,7 @@ export const obras = [
       'El clásico bodegón utilizado para las clases de pintura suele convertirse en una obra donde los silenciosos objetos —generalmente de la cocina cotidiana— son vestidos de líneas y colores, pasando a ser finalmente un pretexto al servicio de la pintura.',
     fuente: { archivo: S + 'el-gran-molinillo.jpg' },
     saatchi: 'Painting-El-gran-molinillo/764219/14068481',
+    cita: 'los silenciosos objetos -generalmente de la cocina cotidiana- son vestidos de líneas y colores, pasando a ser un pretexto finalmente, al servicio de la pintura.',
   },
   {
     slug: 'la-diligencia',
@@ -210,6 +214,7 @@ export const obras = [
       'Los ríos del sur de Chile suelen inspirar al pintor. Una caída de agua, un torrente veloz, los saltos del Petrohué… son postales de incomparable belleza. Paisajes eternos, a la vez que efímeros. Instantes en que cruza el agua cristalina y fría a gran velocidad, para calmarse luego, río abajo, en un breve momento de contemplación y tranquilidad.',
     fuente: { archivo: S + 'rio-de-la-montana.jpg' },
     saatchi: 'Painting-Rio-de-la-montana/764219/13944535',
+    cita: 'Paisajes eternos, a la vez que efímeros.',
   },
   {
     slug: 'la-casa-de-campo',
@@ -222,6 +227,7 @@ export const obras = [
       'Una joven pensativa está sentada al interior de una casa de campo. Puede verse por la ventana el paisaje al atardecer. Todo transcurre en calma, como pocos momentos en la vida…',
     fuente: { archivo: S + 'la-casa-de-campo.jpg', recorte: { left: 0, top: 0, width: 1186, height: 1726 } },
     saatchi: 'Painting-La-casa-de-campo/764219/13858523',
+    cita: 'Todo transcurre en calma, como pocos momentos en la vida...',
   },
   {
     slug: 'perspectiva-invertida',
@@ -246,6 +252,7 @@ export const obras = [
       'Muchas pinturas, de esas que representan clásicas escenas de puerto, permanecen en la memoria. De allí que uno puede utilizar ese recurso —la memoria, el recuerdo— para recrear un paisaje con características de escena de puerto, con un primer plano mostrando objetos de una mesa fresca de desayuno veraniego.',
     fuente: { archivo: S + 'desayuno-en-el-puerto.jpg' },
     saatchi: 'Painting-Desayuno-en-el-puerto/764219/12462459',
+    cita: 'Muchas pinturas, de esas que representan clásicas escenas de puerto, permanecen en la memoria.',
   },
   {
     slug: 'el-diario',
@@ -281,6 +288,7 @@ export const obras = [
       'La obra está inspirada en objetos de uso común y elementos típicos de la mesa o la cocina: peras, vaso, jarra, tabla de picar. Pero parece haber también un plano exterior, a lo lejos, visible desde una ventana. Todo parece estar dispuesto sobre la mesa; especialmente el tono, la línea y el color, una especial trilogía que hace posible la creación de una atmósfera metafísica y tierna.',
     fuente: { archivo: S + 'pequeno-bodegon.jpg' },
     saatchi: 'Painting-Pequeno-bodegon/764219/12369845',
+    cita: 'Todo parece estar dispuesto sobre la mesa; especialmente el tono, la línea y el color, una especial trilogía que hace posible la creación de una atmósfera metafísica y tierna.',
   },
   {
     slug: 'paisaje-metafisico',
@@ -292,6 +300,7 @@ export const obras = [
     descripcion: 'Paisaje metafísico, imágenes solitarias, silenciosas. Geografía tonal, estructura y línea. Constructivo.',
     fuente: { archivo: S + 'paisaje-metafisico.jpg' },
     saatchi: 'Painting-Paisaje-metafisico/764219/10481119',
+    cita: 'Paisaje metafísico, imágenes solitarias, silenciosas. Geografía tonal, estructura y línea. Constructivo.',
   },
   {
     slug: 'escena-religiosa',
@@ -316,6 +325,7 @@ export const obras = [
       'Inspirada en el sentimiento de espera de una pareja, esta obra busca completar su mensaje en la mirada del espectador. La expectativa de una espera supone también esperanza y amor.',
     fuente: { archivo: S + 'la-espera.jpg' },
     saatchi: 'Painting-La-espera/764219/8882096',
+    cita: 'La expectativa de una espera supone también esperanza y amor.',
   },
   {
     slug: 'bodegon-con-bananas-que-flotan',
@@ -328,6 +338,7 @@ export const obras = [
       'Un colorido bodegón muestra una sandía bien madura. Hay también una botella, unos pescados sobre el plato. Objetos, entre planos de color. Pero lo más llamativo es un par de bananas que parecen flotar, como si nada. Ignorando los elementos básicos del dibujo (y de la fuerza de gravedad) estos plátanos, en su curiosa ubicación, iban a ser eliminados del cuadro. Sin embargo, el pintor decidió dejarlo así. Su nieto, tal vez, sea el culpable de esto: —Déjalo así, abuelo —habrá dicho el niño—. Todo el mundo sabe que las bananas suelen flotar, cuando están contentas…',
     fuente: { archivo: S + 'bodegon-con-bananas-que-flotan.jpg' },
     saatchi: 'Painting-Bodegon-con-bananas-que-flotan/764219/8825772',
+    cita: '-Déjalo así, abuelo- habrá dicho el niño. -Todo el mundo sabe que las bananas suelen flotar, cuando están contentas...',
   },
   {
     slug: 'bodegon-con-botella-de-chianti',
@@ -373,6 +384,7 @@ export const obras = [
     descripcion: 'Un grupo de frutas y objetos, sobre la pequeña mesa. Eso es todo.',
     fuente: { archivo: S + 'bodegon-con-jarrita-verde-y-ajo.jpg' },
     saatchi: 'Painting-Bodegon-con-jarrita-verde-y-ajo/764219/6756505',
+    cita: 'Un grupo de frutas y objetos, sobre la pequeña mesa. Eso es todo.',
   },
   {
     slug: 'la-jarrita-blanca',
@@ -455,6 +467,7 @@ export const obras = [
       'Un trozo de pan flauta, una garrafa de vino, una jarrita blanca. Era un pequeño y tierno modelo de bodegón que anhelaba estar en la tela del bastidor para permanecer ahí, y trascender.',
     fuente: { archivo: S + 'bodegon-con-damajuana-y-pan.jpg' },
     saatchi: 'Painting-Bodegon-con-damajuana-y-pan/764219/2553642',
+    cita: 'Era un pequeño y tierno modelo de bodegón que anhelaba estar en la tela del bastidor para permanecer ahí, y trascender.',
   },
   {
     slug: 'puerto-del-sur',
@@ -467,6 +480,7 @@ export const obras = [
       'Llegan desde lejos. Vienen del otro lado del mundo, hasta este pequeño puerto. Son naves enormes que acaban de surcar los mares desafiando tormentas, para llegar al sur. Hace unos minutos —a lo lejos— parecían diminutos barcos de juguete. Pero son gigantescos y ya están acá. Permanecerán unos días descargando sus tesoros, mientras los marineros se emborrachan de lo lindo en las tabernas y boliches de la ciudad vieja.',
     fuente: { archivo: S + 'puerto-del-sur.jpg' },
     saatchi: 'Painting-Puerto-del-sur/764219/2377921',
+    cita: 'Hace unos minutos -a lo lejos- parecían diminutos barcos de juguete. Pero son gigantescos y ya están acá.',
   },
   {
     slug: 'bodegon-humilde',
@@ -479,6 +493,7 @@ export const obras = [
       'Un bowl, un trapo, una fruta. Un bodegón muy pequeño; humilde, si se quiere. Ahora quedó plasmado aquí, en óleo sobre papel, enmarcado y todo. Pero sigue conservando su silencio y cierto grado de humildad.',
     fuente: { archivo: S + 'bodegon-humilde.jpg' },
     saatchi: 'Painting-Bodegon-humilde/764219/2610478',
+    cita: 'Un bowl, un trapo, una fruta. Un bodegón muy pequeño; humilde, si se quiere.',
   },
 ];
 
