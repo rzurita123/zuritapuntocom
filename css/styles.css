@@ -191,7 +191,7 @@ body::after {
   height: var(--nav-h);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 16px;
   padding: 0 var(--gutter);
   color: var(--fg);
@@ -208,29 +208,36 @@ body::after {
 }
 .nav.is-solid::before { opacity: .92; }
 .nav.is-hidden { transform: translateY(-100%); }
-.nav__logo { display: block; width: 118px; padding: 10px 0; color: inherit; }
-.nav__logo svg { width: 100%; overflow: visible; }
-.nav__links { display: flex; gap: clamp(14px, 3vw, 40px); }
+/* Cada sección tiene un color de la paleta: una barra que al pasar el mouse llena el link */
+.nav__links { display: flex; gap: clamp(6px, 1.1vw, 14px); }
 .nav__links a {
+  --c: var(--ocre);
+  --ink: var(--negro);
   position: relative;
-  font: 500 13px/1 var(--sans);
-  letter-spacing: .14em;
+  isolation: isolate;
+  padding: 14px 18px 16px;
+  font: 600 14px/1 var(--sans);
+  letter-spacing: .16em;
   text-transform: uppercase;
   text-decoration: none;
-  padding: 15px 0;
-  overflow: hidden;
+  transition: color .45s var(--ease);
 }
+.nav__links a:nth-child(2) { --c: var(--rojo); --ink: var(--cream); }
+.nav__links a:nth-child(3) { --c: var(--gris); --ink: var(--negro); }
+.nav__links a:nth-child(4) { --c: var(--azul); --ink: var(--cream); }
 .nav__links a::after {
   content: '';
   position: absolute;
-  left: 0; right: 0; bottom: 9px;
-  height: 2px;
-  background: var(--accent);
-  transform: scaleX(0);
-  transform-origin: 100% 50%;
+  inset: 0;
+  z-index: -1;
+  background: var(--c);
+  transform: scaleY(.09);
+  transform-origin: 50% 100%;
   transition: transform .5s var(--ease);
 }
-.nav__links a:hover::after, .nav__links a.is-current::after { transform: scaleX(1); transform-origin: 0 50%; }
+.nav__links a.is-current::after { transform: scaleY(.2); }
+.nav__links a:hover, .nav__links a:focus-visible { color: var(--ink); }
+.nav__links a:hover::after, .nav__links a:focus-visible::after { transform: scaleY(1); }
 
 /* ---------- botones ---------- */
 .btn {
@@ -285,14 +292,12 @@ body::after {
   padding: calc(var(--nav-h) + 24px) var(--gutter) 48px;
 }
 .hero__text { position: relative; z-index: 2; }
-.hero__title {
-  margin: 0 0 26px;
-  font: 400 clamp(72px, 10.5vw, 188px)/.86 var(--serif);
-  letter-spacing: -.03em;
-}
-.hero__title .line { display: block; overflow: hidden; padding-bottom: .06em; }
-.hero__title .line > * { display: inline-block; }
-.hero__title em { color: var(--ocre); padding-right: .08em; }
+.hero__title { margin: 0 0 30px; }
+.hero__firma { display: block; width: min(100%, 560px); overflow: visible; color: var(--fg); }
+/* La firma de la portada aparece cuando llega la de la intro (ver intro() en main.js) */
+.js .hero__firma { opacity: 0; }
+.hero__firma.is-here { opacity: 1; }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .hero__lead { max-width: 30em; margin: 0 0 36px; color: var(--muted); font-size: clamp(16px, 1.3vw, 19px); }
 .hero__cta { display: flex; flex-wrap: wrap; gap: 14px; }
 
@@ -368,11 +373,8 @@ body::after {
 .hero__cell .sym use { stroke-width: 1.8; }
 
 /* estado inicial de la portada (lo anima main.js) */
-.js .hero__title .line > * { transform: translateY(110%); }
 .js .hero__lead, .js .hero__cta { opacity: 0; }
 .js .hero__cell { clip-path: inset(0 0 100% 0); }
-.hero.is-in .hero__title .line > * { transform: none; transition: transform 1.3s var(--ease-out); }
-.hero.is-in .hero__title .line:nth-child(2) > * { transition-delay: .12s; }
 .hero.is-in .hero__lead, .hero.is-in .hero__cta {
   opacity: 1;
   transition: opacity 1.2s var(--ease-out) .5s;
@@ -848,7 +850,7 @@ body::after {
 .sent__text { margin: 0 0 12px; max-width: 28em; color: var(--muted); font-size: 17px; }
 
 .footer { padding: 0 var(--gutter) 28px; }
-.footer__firma { display: block; width: min(100%, 880px); overflow: visible; color: var(--fg); margin: clamp(24px, 4vw, 56px) 0 28px; }
+.footer__firma { display: block; width: min(100%, 880px); overflow: visible; color: var(--fg); margin: clamp(24px, 4vw, 56px) auto 28px; }
 .footer__row {
   display: flex;
   flex-wrap: wrap;
@@ -1009,9 +1011,9 @@ html.is-locked, html.is-locked body { overflow: hidden; }
 }
 @media (max-width: 560px) {
   :root { --nav-h: 60px; }
-  .nav__logo { width: 86px; }
-  .nav__links { gap: 12px; }
-  .nav__links a { font-size: 11px; letter-spacing: .08em; }
+  .nav { padding: 0 8px; justify-content: center; }
+  .nav__links { width: 100%; gap: 4px; }
+  .nav__links a { flex: 1; text-align: center; padding: 15px 4px 16px; font-size: 11px; letter-spacing: .08em; }
   .hero__grid {
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(4, 1fr);

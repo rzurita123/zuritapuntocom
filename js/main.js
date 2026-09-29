@@ -145,7 +145,8 @@ const wipeText = $('.wipe__text');
 let wiping = false;
 
 async function intro() {
-  if (reduced) { html.classList.remove('intro-pending'); return; }
+  const heroFirma = $('.hero__firma');
+  if (reduced) { html.classList.remove('intro-pending'); heroFirma.classList.add('is-here'); return; }
   wiping = true;
   const repeat = sget('zurita-intro') === '1';
   sset('zurita-intro', '1');
@@ -158,16 +159,30 @@ async function intro() {
 
   wipeLabel.style.opacity = 1;
   await drawFirma(wipeFirma, repeat ? 800 : 1900);
-  await wait(repeat ? 80 : 280);
+  await wait(repeat ? 120 : 320);
 
-  wipeLabel.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(-40px)' }], { duration: 500, easing: EASE, fill: 'forwards' });
-  await Promise.all(
-    wipeSpans.map((s, i) =>
-      s.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(-101%)' }], {
-        duration: 900, delay: 120 + i * 70, easing: EASE, fill: 'forwards',
-      }).finished,
-    ),
+  // Se abren las franjas y, a la vez, la firma viaja a su lugar en la portada.
+  const franjas = wipeSpans.map((s, i) =>
+    s.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(-101%)' }], {
+      duration: 900, delay: 120 + i * 70, easing: EASE, fill: 'forwards',
+    }).finished,
   );
+  hero.classList.add('is-in');
+  const enPortada = !location.hash || location.hash === '#inicio';
+  if (enPortada) {
+    const r0 = wipeFirma.getBoundingClientRect();
+    const r1 = heroFirma.getBoundingClientRect();
+    wipeFirma.style.transformOrigin = '0 0';
+    await wipeFirma.animate(
+      [{ transform: 'none' }, { transform: `translate(${r1.left - r0.left}px, ${r1.top - r0.top}px) scale(${r1.width / r0.width})` }],
+      { duration: 1150, delay: 60, easing: EASE, fill: 'forwards' },
+    ).finished;
+  } else {
+    // Con un link directo a otra sección la portada no está en pantalla: la firma se desvanece.
+    wipeLabel.animate([{ opacity: 1 }, { opacity: 0, transform: 'translateY(-40px)' }], { duration: 500, easing: EASE, fill: 'forwards' });
+  }
+  heroFirma.classList.add('is-here');
+  await Promise.all(franjas);
   resetWipe();
   wiping = false;
 }
@@ -175,6 +190,8 @@ async function intro() {
 function resetWipe() {
   wipeSpans.forEach((s) => { s.getAnimations().forEach((a) => a.cancel()); s.style.transform = ''; });
   wipeLabel.getAnimations().forEach((a) => a.cancel());
+  wipeFirma.getAnimations().forEach((a) => a.cancel());
+  wipeFirma.style.transformOrigin = '';
   setFirma(wipeFirma, 0);
   wipeLabel.style.opacity = '';
   wipe.classList.remove('is-active');
