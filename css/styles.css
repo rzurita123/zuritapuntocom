@@ -131,6 +131,10 @@ body::after {
 .wipe > span:nth-child(5) { background: var(--azul); }
 .js.intro-pending .wipe > span { transform: none; }
 .wipe.is-active { pointer-events: auto; }
+/* Fuera de uso la cortina queda oculta: en mobile, al esconderse la barra del navegador,
+   las franjas (que esperan justo debajo de la pantalla) llegaban a asomarse. */
+.wipe:not(.is-active) { visibility: hidden; }
+.js.intro-pending .wipe { visibility: visible; }
 .wipe__label {
   position: absolute;
   inset: 0;
@@ -650,14 +654,14 @@ body::after {
   background: var(--negro);
 }
 .retrato__cell { position: relative; overflow: hidden; display: grid; place-items: center; }
-.retrato__cell svg { width: 56%; height: 56%; overflow: visible; }
+.retrato__cell svg { width: 56%; height: auto; aspect-ratio: 1; max-height: 70%; overflow: visible; }
 .retrato__cell--foto { grid-area: f; background: var(--cafe); }
 .retrato__cell--ocre { grid-area: o; background: var(--ocre); color: var(--negro); }
 .retrato__cell--rojo { grid-area: r; background: var(--rojo); color: var(--cream); }
 .retrato__cell--azul { grid-area: a; background: var(--azul); color: var(--cream); }
-.retrato__cell--gris { grid-area: g; background: var(--gris); color: var(--negro); }
-.retrato__cell--firma { grid-area: s; background: var(--linen); color: var(--negro); }
-.retrato__cell--firma svg { width: 78%; height: auto; }
+.retrato__cell--gris { grid-area: g; background: var(--linen); color: var(--negro); }
+.retrato__cell--firma { grid-area: s; background: var(--gris); color: var(--negro); }
+.retrato__cell--firma svg { width: 78%; height: auto; aspect-ratio: auto; max-height: none; }
 .retrato__cell--foto picture, .retrato__cell--foto img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .retrato__cell--foto img {
   object-fit: cover;
@@ -992,7 +996,12 @@ html.is-locked, html.is-locked body { overflow: hidden; }
     padding-top: calc(var(--nav-h) + 8px);
   }
   .hero__grid { order: -1; height: 56svh; min-height: 320px; gap: 6px; padding: 6px; }
-  .hero__title { margin: 14px 0 18px; }
+  /* Apilado: firma, collage, texto y botones */
+  .hero__text { display: contents; }
+  .hero__title { order: -2; margin: 0; }
+  .hero__firma { margin-inline: auto; }
+  .hero__lead { margin: 0; }
+  .hero__cta { justify-content: center; }
   .artista__body { grid-template-columns: 1fr; }
   .contacto { grid-template-columns: 1fr; }
   .retrato { position: relative; top: 0; max-width: 460px; }

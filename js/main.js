@@ -168,6 +168,7 @@ async function intro() {
     }).finished,
   );
   hero.classList.add('is-in');
+  wipe.style.pointerEvents = 'none'; // la página ya se ve: que responda a los clics mientras sale la cortina
   const enPortada = !location.hash || location.hash === '#inicio';
   if (enPortada) {
     const r0 = wipeFirma.getBoundingClientRect();
@@ -194,6 +195,7 @@ function resetWipe() {
   wipeFirma.style.transformOrigin = '';
   setFirma(wipeFirma, 0);
   wipeLabel.style.opacity = '';
+  wipe.style.pointerEvents = '';
   wipe.classList.remove('is-active');
 }
 
