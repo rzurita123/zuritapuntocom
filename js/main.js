@@ -42,6 +42,99 @@ function decode(img) {
 }
 
 /* ==========================================================================
+   Firma: animación "escribiéndose"
+   ========================================================================== */
+// La firma es una figura rellena (vectorizada de la foto). Para que parezca escribirse
+// se enmascara con estos trazos, en orden de escritura y en coordenadas de la foto
+// original (ver scripts/firma.mjs), y se van descubriendo uno tras otro.
+const FIRMA_TRAZOS = [
+  'M120 672L262 665', // guion
+  'M330 556L580 550', // Z: barra superior
+  'M560 560L438 765', //    diagonal
+  'M398 772L655 780', //    base
+  'M598 552L718 805', // V: brazo izquierdo
+  'M765 810L768 505', //    brazo derecho (también palo de la R)
+  'M770 510L900 508Q945 520 930 580Q915 640 835 645', // R: panza
+  'M832 650L1000 855', //   pata
+  'M1000 505L1008 800', // I
+  'M1060 388L1200 298', // tilde
+  'M1100 535L1490 518', // T: barra
+  'M1222 540L1215 835', //    palo
+  'M1290 790L1385 440L1525 835', // A
+  'M1672 612L1830 606', // guion
+];
+
+/** Largo aproximado de un trazo (rectas y curvas cuadráticas). */
+function largoTrazo(d) {
+  const n = d.match(/[MLQ]|-?\d+(\.\d+)?/g);
+  let x = 0, y = 0, total = 0;
+  for (let i = 0; i < n.length; ) {
+    const cmd = n[i++];
+    if (cmd === 'M') { x = +n[i++]; y = +n[i++]; }
+    else if (cmd === 'L') { const nx = +n[i++], ny = +n[i++]; total += Math.hypot(nx - x, ny - y); x = nx; y = ny; }
+    else if (cmd === 'Q') {
+      const cx = +n[i++], cy = +n[i++], nx = +n[i++], ny = +n[i++];
+      let px = x, py = y;
+      for (let k = 1; k <= 12; k++) {
+        const t = k / 12, u = 1 - t;
+        const qx = u * u * x + 2 * u * t * cx + t * t * nx, qy = u * u * y + 2 * u * t * cy + t * t * ny;
+        total += Math.hypot(qx - px, qy - py); px = qx; py = qy;
+      }
+      x = nx; y = ny;
+    }
+  }
+  return total;
+}
+
+function prepFirmas() {
+  const vb = $('#s-firma').getAttribute('viewBox').split(' ').map(Number);
+  const largos = FIRMA_TRAZOS.map(largoTrazo);
+  const total = largos.reduce((a, b) => a + b, 0);
+  $$('.firma-anim').forEach((svg, i) => {
+    const id = `m-firma-${i}`;
+    const [, , w, h] = svg.getAttribute('viewBox').split(' ');
+    svg.insertAdjacentHTML(
+      'afterbegin',
+      `<defs><mask id="${id}" maskUnits="userSpaceOnUse" x="-100" y="-100" width="${+w + 200}" height="${+h + 200}">` +
+        `<g class="firma-trazos" transform="translate(${-vb[0]} ${-vb[1]})">${FIRMA_TRAZOS.map((d) => `<path d="${d}"/>`).join('')}</g>` +
+      `</mask></defs>`,
+    );
+    $('use', svg).setAttribute('mask', `url(#${id})`);
+    let acc = 0;
+    svg._trazos = $$('.firma-trazos path', svg).map((p, k) => {
+      const t = { p, len: largos[k], start: acc / total, span: largos[k] / total };
+      acc += largos[k];
+      p.style.strokeDasharray = `${t.len} ${t.len}`;
+      return t;
+    });
+    setFirma(svg, 0);
+  });
+}
+
+/** Dibuja la firma hasta la fracción p (0 = nada, 1 = completa). */
+function setFirma(svg, p) {
+  if (!svg._trazos) return;
+  svg._trazos.forEach((t) => {
+    const f = clamp((p - t.start) / t.span, 0, 1);
+    t.p.style.strokeDashoffset = String(t.len * (1 - f));
+  });
+  svg.classList.toggle('is-drawn', p >= 1);
+}
+
+function drawFirma(svg, ms) {
+  return new Promise((ok) => {
+    const t0 = performance.now();
+    const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+    const tick = (now) => {
+      const t = clamp((now - t0) / ms, 0, 1);
+      setFirma(svg, ease(t));
+      if (t < 1) requestAnimationFrame(tick); else ok();
+    };
+    requestAnimationFrame(tick);
+  });
+}
+
+/* ==========================================================================
    Cortina (intro y navegación entre secciones)
    ========================================================================== */
 const wipe = $('.wipe');
@@ -64,10 +157,7 @@ async function intro() {
   html.classList.remove('intro-pending');
 
   wipeLabel.style.opacity = 1;
-  await wipeFirma.querySelector('path').animate(
-    [{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }],
-    { duration: repeat ? 600 : 1500, easing: EASE, fill: 'forwards' },
-  ).finished;
+  await drawFirma(wipeFirma, repeat ? 800 : 1900);
   await wait(repeat ? 80 : 280);
 
   wipeLabel.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(-40px)' }], { duration: 500, easing: EASE, fill: 'forwards' });
@@ -85,7 +175,7 @@ async function intro() {
 function resetWipe() {
   wipeSpans.forEach((s) => { s.getAnimations().forEach((a) => a.cancel()); s.style.transform = ''; });
   wipeLabel.getAnimations().forEach((a) => a.cancel());
-  wipeFirma.querySelector('path').getAnimations().forEach((a) => a.cancel());
+  setFirma(wipeFirma, 0);
   wipeLabel.style.opacity = '';
   wipe.classList.remove('is-active');
 }
@@ -787,7 +877,7 @@ function onScroll() {
   for (let i = 0; i < items.length; i++) items[i].classList.toggle('is-on', tp >= i / (items.length - 1) - 0.02 || tp > 0.98);
 
   const fr = footerFirma.getBoundingClientRect();
-  footerFirma.style.setProperty('--draw', (1 - clamp((innerHeight - fr.top) / (fr.height * 1.1), 0, 1)).toFixed(3));
+  setFirma(footerFirma, clamp((innerHeight - fr.top) / (fr.height * 1.1), 0, 1));
 }
 
 function observeSections() {
@@ -944,6 +1034,7 @@ function bindForm() {
    ========================================================================== */
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
+prepFirmas();
 buildHero();
 buildMarquee();
 buildGallery();

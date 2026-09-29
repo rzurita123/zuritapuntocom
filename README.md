@@ -42,6 +42,22 @@ con doble clic no funciona porque los módulos JS necesitan `http://`.
 
 Las obras marcadas `destacada: true` alimentan el collage de la portada (se usan las 5 primeras).
 
+## Firma
+
+La firma es la real, vectorizada de una foto (`assets/firma-original.jpg`) con `scripts/firma.mjs`.
+Para reemplazarla por una mejor (escaneo en alta, tinta oscura sobre fondo claro):
+
+```bash
+npm install --no-save potrace
+MED=5 ALPHA=0.8 node scripts/firma.mjs assets/nueva-firma.jpg
+```
+
+Eso escribe `img/firma.svg`. Copiar su `viewBox` y su `d` al `<symbol id="s-firma">` de `index.html`,
+y usar `viewBox="0 0 ancho alto"` en los `<svg>` que la referencian. Si la forma cambia mucho, ajustar
+`FIRMA_TRAZOS` en `js/main.js`: son los trazos que animan la firma "escribiéndose" en la intro y el pie.
+
+El favicon (`favicon.svg` y `apple-touch-icon.png`) es la Z de esa misma foto: `node scripts/favicon.mjs`.
+
 ## Deploy
 
 El sitio se sirve tal cual desde la raíz del repo.
