@@ -750,7 +750,18 @@ const statement = $('.statement');
 const timeline = $('.timeline');
 const footerFirma = $('.footer__firma');
 let words = [];
-let wordTops = [];
+let lineas = [];
+let walls = [];
+
+/** "Pared" de la página: la da la última sección cuyo borde superior pasó su punto de
+    disparo (data-wall-at, fracción de la pantalla; 0.55 por defecto). */
+function updateWall() {
+  let actual = walls[0];
+  for (const el of walls) {
+    if (el.getBoundingClientRect().top <= innerHeight * parseFloat(el.dataset.wallAt || '0.55')) actual = el;
+  }
+  if (actual && document.body.dataset.wall !== actual.dataset.wall) document.body.dataset.wall = actual.dataset.wall;
+}
 let lastY = scrollY;
 
 function prepStatement() {
@@ -769,13 +780,29 @@ function prepStatement() {
 
 /** Posición de cada palabra dentro del texto y su orden dentro de la línea (para el barrido). */
 function measureStatement() {
+  // offsetTop (y no getBoundingClientRect) porque ignora el desplazamiento de las palabras aún ocultas
+  lineas = [];
+  let linea = null;
+  words.forEach((w) => {
+    const t = w.offsetParent === statement.offsetParent ? w.offsetTop - statement.offsetTop : w.getBoundingClientRect().top - statement.getBoundingClientRect().top;
+    if (!linea || Math.abs(t - linea.top) > 4) { linea = { top: t, words: [] }; lineas.push(linea); }
+    w.style.setProperty('--k', linea.words.length);
+    linea.words.push(w);
+  });
+  // Una línea ya revelada sigue revelada (p. ej. después de un resize)
+  lineas.forEach((l) => (l.on = l.words.every((w) => w.classList.contains('is-on'))));
+}
+
+/** Revela cada línea poco después de que asoma por abajo. Una vez revelada, queda así. */
+function revealStatement() {
+  if (!lineas.length) return;
   const top = statement.getBoundingClientRect().top;
-  let lineTop = null, k = 0;
-  wordTops = words.map((w) => {
-    const t = w.getBoundingClientRect().top - top;
-    if (lineTop === null || Math.abs(t - lineTop) > 4) { lineTop = t; k = 0; }
-    w.style.setProperty('--k', k++);
-    return t;
+  const umbral = innerHeight * 0.9;
+  lineas.forEach((l) => {
+    if (!l.on && top + l.top < umbral) {
+      l.on = true;
+      l.words.forEach((w) => w.classList.add('is-on'));
+    }
   });
 }
 
@@ -884,11 +911,8 @@ function onScroll() {
 
   marquee.v = clamp(marquee.v + Math.abs(dy) * 0.08, 0, 24) * Math.sign(dy || 1);
 
-  if (words.length) {
-    const top = statement.getBoundingClientRect().top;
-    const umbral = innerHeight * 0.88;
-    words.forEach((w, i) => w.classList.toggle('is-on', top + wordTops[i] < umbral));
-  }
+  revealStatement();
+  updateWall();
 
   const tp = progressOf(timeline, 0.85, 0.7);
   timeline.style.setProperty('--p', tp.toFixed(3));
@@ -900,13 +924,8 @@ function onScroll() {
 }
 
 function observeSections() {
-  const walls = $$('[data-wall]').filter((el) => el !== document.body);
-  const io = new IntersectionObserver(
-    (entries) => entries.forEach((en) => { if (en.isIntersecting) document.body.dataset.wall = en.target.dataset.wall; }),
-    // la pared cambia cuando la sección nueva llega al 55 % de la pantalla (un poco antes que al medio)
-    { rootMargin: '-55% 0px -45% 0px' },
-  );
-  walls.forEach((el) => io.observe(el));
+  walls = $$('[data-wall]').filter((el) => el !== document.body);
+  updateWall();
 
   const links = $$('.nav__links a');
   const io2 = new IntersectionObserver(

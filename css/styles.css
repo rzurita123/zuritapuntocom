@@ -526,11 +526,20 @@ body::after {
   font: 400 clamp(28px, 3.8vw, 56px)/1.14 var(--serif);
   letter-spacing: -.01em;
 }
-.statement .w { opacity: .14; transition: opacity .6s var(--ease-out) calc(var(--k, 0) * 22ms), color .6s var(--ease-out) calc(var(--k, 0) * 22ms); }
-.statement .w.is-on { opacity: 1; }
+/* Se revela línea por línea (ver revealStatement en main.js); dentro de la línea, un barrido suave */
+.statement .w {
+  display: inline-block;
+  opacity: .12;
+  transform: translateY(.28em);
+  transition:
+    opacity 1.5s cubic-bezier(.25, .1, .25, 1) calc(var(--k, 0) * 45ms),
+    transform 1.7s var(--ease-out) calc(var(--k, 0) * 45ms),
+    color 1.5s ease calc(var(--k, 0) * 45ms);
+}
+.statement .w.is-on { opacity: 1; transform: none; }
 .statement .w.hl { font-style: italic; }
 .statement .w.hl.is-on { color: var(--ocre); }
-.no-js .statement .w { opacity: 1; }
+.no-js .statement .w { opacity: 1; transform: none; }
 
 @property --line { syntax: '<number>'; inherits: false; initial-value: 1; }
 
