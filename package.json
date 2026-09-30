@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "images": "node scripts/build-images.mjs",
-    "dev": "npx --yes serve -l 5173 ."
+    "dev": "npx --yes wrangler dev --port 5173 --no-bundle",
+    "dev:estatico": "npx --yes serve -l 5173 ."
   },
   "devDependencies": {
     "sharp": "^0.34.0"

@@ -855,6 +855,9 @@ body::after {
 .field.is-invalid :is(input, textarea) { border-bottom-color: #e3876a; }
 .form__submit { justify-self: start; margin-top: 8px; }
 .form__submit.is-sending { pointer-events: none; opacity: .75; }
+.form__error { margin: 0; font-size: 14.5px; color: #e3876a; }
+.form__error[hidden] { display: none; }
+.trampa { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
 .sent { display: grid; justify-items: start; gap: 14px; outline: none; }
 .sent[hidden] { display: none; }

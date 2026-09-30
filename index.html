@@ -216,7 +216,12 @@
             <label for="f-mensaje">Mensaje</label>
             <span class="field__error">Escribí tu mensaje.</span>
           </div>
+          <!-- Trampa para bots: invisible para las personas; si llega completo, el mensaje se descarta -->
+          <div class="trampa" aria-hidden="true">
+            <label>No completar <input name="sitio" type="text" tabindex="-1" autocomplete="off"></label>
+          </div>
           <button class="btn btn--solid form__submit" type="submit"><span>Enviar mensaje</span></button>
+          <p class="form__error" role="alert" hidden></p>
         </form>
 
         <div class="sent" hidden tabindex="-1">

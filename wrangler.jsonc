@@ -5,9 +5,20 @@
   "observability": {
     "enabled": true
   },
-  // Sitio 100 % estático: se publican los archivos de la raíz, menos lo listado en .assetsignore
+  // Worker: atiende el formulario (/api/contacto) y sirve el resto como sitio estático
+  "main": "src/worker.js",
+  // Se publican los archivos de la raíz, menos lo listado en .assetsignore
   "assets": {
     "directory": ".",
-    "not_found_handling": "404-page"
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
+  },
+  // Envío de mails por Cloudflare Email Routing (la casilla debe estar verificada en el dashboard)
+  "send_email": [
+    { "name": "CORREO", "destination_address": "zuritamapuche@gmail.com" }
+  ],
+  "vars": {
+    "DESTINO": "zuritamapuche@gmail.com"
   }
 }

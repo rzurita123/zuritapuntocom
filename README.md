@@ -1,7 +1,8 @@
 # zuritapuntocom
 
 Galería online de **Marcelo Zurita**, pintor chileno (1958) radicado en Montevideo.
-Sitio 100 % estático: HTML, CSS y JavaScript vanilla, sin build ni backend.
+HTML, CSS y JavaScript vanilla, sin build. Se publica como Worker de Cloudflare: sirve los archivos
+estáticos y atiende el formulario de contacto.
 
 ## Estructura
 
@@ -14,8 +15,11 @@ js/imagenes.js        generado por `npm run images` (dimensiones, color dominant
 js/main.js            intro, transiciones, galería, visor, animaciones de scroll
 img/                  imágenes optimizadas (generadas; se publican)
 assets/               fotos originales (fuente de las imágenes optimizadas)
-scripts/build-images.mjs
-_headers              caché para Cloudflare Pages
+scripts/               imágenes, firma y favicon
+src/worker.js         Worker: formulario de contacto (/api/contacto) + archivos estáticos
+wrangler.jsonc        configuración del Worker (qué se publica, envío de mails)
+.assetsignore         archivos del repo que NO se publican
+_headers              caché de imágenes, CSS y JS
 ```
 
 ## Ver el sitio en local
@@ -24,8 +28,9 @@ _headers              caché para Cloudflare Pages
 npm run dev
 ```
 
-Abre en <http://localhost:5173>. Cualquier servidor estático sirve; abrir `index.html`
-con doble clic no funciona porque los módulos JS necesitan `http://`.
+Abre en <http://localhost:5173> con el Worker incluido, así que el formulario funciona: los mails no se
+envían, Wrangler los guarda como `.eml` en `.wrangler/tmp/email/` y muestra la ruta en la consola.
+Para ver solo lo estático (sin formulario): `npm run dev:estatico`.
 
 ## Agregar o editar un cuadro
 
@@ -58,23 +63,28 @@ y usar `viewBox="0 0 ancho alto"` en los `<svg>` que la referencian. Si la forma
 
 El favicon (`favicon.svg` y `apple-touch-icon.png`) es la Z de esa misma foto: `node scripts/favicon.mjs`.
 
+## Formulario de contacto
+
+`src/worker.js` recibe el formulario y lo envía por mail a **zuritamapuche@gmail.com** con Cloudflare
+Email Routing, desde `formulario@marcelozurita.com`. "Responder" le contesta a quien escribió.
+Descarta bots con un campo trampa invisible y solo acepta envíos desde el propio sitio.
+
+Requisitos en el dashboard de Cloudflare (una sola vez):
+
+1. **Email** → **Email Routing**: activado para `marcelozurita.com`.
+2. **Destination addresses**: `zuritamapuche@gmail.com` agregada y **verificada** (llega un mail a esa casilla).
+
+Para cambiar la casilla de destino: `send_email` y `vars.DESTINO` en `wrangler.jsonc` (y verificar la nueva).
+
 ## Deploy
 
-El sitio se sirve tal cual desde la raíz del repo.
-
-**Cloudflare Pages** (conectado al repo de GitHub):
-
-- Framework preset: *None*
-- Build command: *(vacío)*
-- Build output directory: `/`
-
-**GitHub Pages**: Settings → Pages → *Deploy from a branch* → `main` / `(root)`.
+Cloudflare Workers, conectado al repo de GitHub: cada push a `main` se publica solo (`npx wrangler deploy`
+con `wrangler.jsonc`). Se publican los archivos de la raíz menos lo listado en `.assetsignore`.
 
 ## Pendientes
 
 - Dos obras sin datos (no están en Saatchi Art): `sin-titulo-jazz` y `sin-titulo-bodegon` en `js/obras.js`.
   Completar título, año, técnica y medidas.
 - La foto del artista es de 300 × 300 px; una de mayor resolución luciría mejor.
-- El formulario de contacto es de muestra: valida y confirma, pero no envía nada. Para activarlo,
-  reemplazar la función `enviar` en `js/main.js` (`bindForm`) por un envío real (un Worker con email, Formspree, etc.).
+- Si llega spam por el formulario: agregar Cloudflare Turnstile (captcha invisible) al Worker.
 - Venta online.

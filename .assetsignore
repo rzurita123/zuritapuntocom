@@ -11,3 +11,4 @@ wrangler.jsonc
 README.md
 .gitignore
 .assetsignore
+src

@@ -1043,16 +1043,36 @@ function bindForm() {
     panel.style.minHeight = '';
   };
 
-  const enviar = async () => wait(900);
+  const errorEl = $('.form__error', form);
+
+  // Lo recibe el Worker (src/worker.js), que lo envía por mail
+  const enviar = async (datos) => {
+    const r = await fetch('/api/contacto', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(Object.fromEntries(datos)),
+    });
+    const res = await r.json().catch(() => ({}));
+    if (!r.ok || !res.ok) throw new Error(res.error || `HTTP ${r.status}`);
+  };
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    errorEl.hidden = true;
     const invalidos = fields.filter((f) => !validate(f));
     if (invalidos.length) { control(invalidos[0]).focus(); return; }
     const btn = $('.form__submit', form);
     btn.classList.add('is-sending');
     $('span', btn).textContent = 'Enviando…';
-    await enviar(new FormData(form));
+    try {
+      await enviar(new FormData(form));
+    } catch {
+      btn.classList.remove('is-sending');
+      $('span', btn).textContent = 'Enviar mensaje';
+      errorEl.textContent = 'No pudimos enviar el mensaje. Probá de nuevo en unos minutos.';
+      errorEl.hidden = false;
+      return;
+    }
     const nombre = form.elements.nombre.value.trim().split(/\s+/)[0];
     $('.sent__name', sent).textContent = nombre ? `, ${nombre}` : '';
     await swap(form, sent);
