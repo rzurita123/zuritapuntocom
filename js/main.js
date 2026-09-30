@@ -903,9 +903,8 @@ function observeSections() {
   const walls = $$('[data-wall]').filter((el) => el !== document.body);
   const io = new IntersectionObserver(
     (entries) => entries.forEach((en) => { if (en.isIntersecting) document.body.dataset.wall = en.target.dataset.wall; }),
-    // la pared cambia cuando la sección nueva llega al 60 % de la pantalla (antes que al medio),
-    // para que la transición, que es larga, termine con la sección ya centrada
-    { rootMargin: '-60% 0px -40% 0px' },
+    // la pared cambia cuando la sección nueva llega al 55 % de la pantalla (un poco antes que al medio)
+    { rootMargin: '-55% 0px -45% 0px' },
   );
   walls.forEach((el) => io.observe(el));
 
